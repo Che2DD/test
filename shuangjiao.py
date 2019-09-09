@@ -144,7 +144,7 @@ def dangriyuceshuangjiao(ts,df,result,flag):
     asd = 0
     zxc = 0
     
-    
+    numb_low = 0
     
     
     for index in tscode.index:
@@ -207,7 +207,7 @@ def dangriyuceshuangjiao(ts,df,result,flag):
                 ma1010 =ma10[index2]*1.005 
                 
                 if((close1-closep[index2])/closep[index2] < 0.05):
-                    print('太小了')
+                    numb_low = numb_low +1
                     continue
                 
                 #if ( open1 == 0 or (ma250[index2] >0 and (ma250[index2]-open1)/open1 < 0)):
@@ -269,7 +269,7 @@ def dangriyuceshuangjiao(ts,df,result,flag):
                                               
                             
                            
-    print('双娇结束')        
+    print('双娇结束'+ '-----'+str(numb_low))        
     result.to_csv('yuceshuangjiao.csv',index=False)
     #print(zxc)
     return

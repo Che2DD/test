@@ -371,9 +371,10 @@ for index in date.index:
 '''
 
 
-'''
+
 
 zhangtinggu =pd.DataFrame(columns=('name','date','amount','flag'))
+zhabangu =pd.DataFrame(columns=('name','date','amount','flag'))
 for index in tscode.index:
     qwe = tscode[index]    
     print(str(qwe)+'::::::::------------'+str(index)+'------')
@@ -388,7 +389,7 @@ for index in tscode.index:
              close = dff.close
              pre_close = dff.pre_close
              amount = dff.amount
-             
+             high = dff.high
              if (dff.shape[0] < 15):
                  print('太短')
                  continue
@@ -404,13 +405,19 @@ for index in tscode.index:
                     
                  origin_num1 = Decimal(pre_close[index2])
                  shoupan_num = origin_num1.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+                 
+                 high_num = Decimal(high[index2])
+                 high_num = high_num.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
 
                  if (panduanzhangting(str(trade_price),shoupan_num)):
-                     zhangtinggu = zhangtinggu.append([{'name':code[index2],'date':date[index2],'amount':amount[index2],'flag':0}])
+                     #zhangtinggu = zhangtinggu.append([{'name':code[index2],'date':date[index2],'amount':amount[index2],'flag':0}])
+                     continue
                      #print('---------'+str(code[index2]))
-zhangtinggu.to_excel( 'zhangtinggu.xlsx',index=False)
+                 elif(panduanzhangting(str(high_num),shoupan_num)):
+                        zhabangu = zhabangu.append([{'name':code[index2],'date':date[index2],'amount':amount[index2],'flag':0}])
+zhabangu.to_excel( 'zhangtinggu.xlsx',index=False)
 
-'''
+
 
 
 

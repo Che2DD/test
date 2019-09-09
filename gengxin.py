@@ -76,7 +76,7 @@ def gengxinyiri(df):
             dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date='20190909', end_date='20190909',ma=[5, 10, 20,30,60,120,250])    
             dff_None = dff.drop(columns=['adj_factor'])
             #dff_None = pro.daily(ts_code=qwe+'', start_date='20190904', end_date='20190904')
-            if (os.path.isfile(str(qwe)+'.csv')):
+            if (os.path.isfile('shuju/'+str(qwe)+'.csv')):
                 dff1 = pd.read_csv('shuju/'+qwe+'.csv')
                 dff_None1 = pd.read_csv('shuju/'+qwe+'-None.csv')
             else :
