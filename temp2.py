@@ -417,7 +417,7 @@ zhangtinggu.to_excel( 'zhangtinggu.xlsx',index=False)
 
 
 
-t = 999
+t = 0
 while(t>0):
     if(t == 1000):
         gengxin.shishijilu(df,1,cal_date[index0])
