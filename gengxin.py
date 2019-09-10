@@ -73,7 +73,7 @@ def gengxinyiri(df):
                               
             name = symbo[index]
             #dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date='20080101', end_date='20191230',ma=[5, 10, 20,30,60,120,250])                
-            dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date='20190909', end_date='20190909',ma=[5, 10, 20,30,60,120,250])    
+            dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date='20190910', end_date='20190910',ma=[5, 10, 20,30,60,120,250])    
             dff_None = dff.drop(columns=['adj_factor'])
             #dff_None = pro.daily(ts_code=qwe+'', start_date='20190904', end_date='20190904')
             if (os.path.isfile('shuju/'+str(qwe)+'.csv')):
@@ -267,8 +267,9 @@ def shishijilu(df,flag,lastjiaoyiri):
             asssd.to_excel(lastjiaoyiri+'.xlsx',index=False)
     else :
         asssd = ts.get_today_all() 
-        asssd.to_excel('linshi.xlsx',index=False)
+        asssd.to_excel('asssd.xlsx',index=False)
         print('获得实时数据')
+    
     #asssd = pd.read_excel('asssd.xlsx',index=False)
    
     if (flag ==1 ):
@@ -304,7 +305,7 @@ def shishijilu(df,flag,lastjiaoyiri):
         code2 = df.symbol
         name2 = df.name
         if int(code2[index2]) in d:
-            asd = d[code2[index2]]
+            asd = d[int(code2[index2])]
                                      
             openop[index2] = asd[4]
             tradeop[index2] = asd[3]

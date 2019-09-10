@@ -4,7 +4,7 @@ Spyder Editor
 
 This is a temporary script file.
 """
-
+import tkinter as tk
 import tushare as ts
 import pandas as pd
 import os
@@ -297,7 +297,7 @@ index0 = index0 -1
 #df1 = ts.pro_bar(ts_code='000001.SH', asset='I', start_date='20000101', end_date='20191230')
 
 #gengxin.shishijilu(df,1,lastjiaoyiri)
-#zhishu.jinrizhangtinggu(df,)
+zhishu.jinrizhangtinggu(df)
 
 
 #zhenfu(df,0)
@@ -316,12 +316,13 @@ def panduanzhangting(shoupan,qianshoupan):
     else:
         return False
 
+
 '''
-
-dff1 = pd.read_excel( 'zhangtinggu.xlsx',index=False)
+#dff1 = pd.read_excel( 'zhangtinggu.xlsx',index=False)
+dff1 = pd.read_excel( 'zhabangu.xlsx',index=False)
 date = dff1.date
-
-zhangtinggu =pd.DataFrame(columns=('name','date','amount','flag'))
+zhabangu =pd.DataFrame(columns=('name','date','amount','flag'))
+#zhangtinggu =pd.DataFrame(columns=('name','date','amount','flag'))
 last = date[0]
 zhongjian = None
 flag = 0
@@ -334,9 +335,9 @@ for index in date.index:
     
     now = date[index]
     if (last == now):
-        zhangtinggu = zhangtinggu.append([{'name':code[index],'date':date[index],'amount':amount[index],'flag':0}]) 
+        zhabangu = zhabangu.append([{'name':code[index],'date':date[index],'amount':amount[index],'flag':0}]) 
     else : 
-        zhangtinggu.to_excel('zhangtingguchi/'+ str(last) + 'zhangtinggu.xlsx',index=False)
+        zhabangu.to_excel('zhangtingguchi/'+ str(last) + 'zhabangu.xlsx',index=False)
         
         zhangtinggu1 = pd.read_excel('zhangtingguchi/'+str(last) + 'zhangtinggu.xlsx')
 
@@ -361,17 +362,18 @@ for index in date.index:
         if (flag == 0):
             flag = 1
         
+        
         zhongjian = last
         last = now
-        zhangtinggu =pd.DataFrame(columns=('name','date','amount','flag'))
-        zhangtinggu = zhangtinggu.append([{'name':code[index],'date':date[index],'amount':amount[index],'flag':0}]) 
+        zhabangu =pd.DataFrame(columns=('name','date','amount','flag'))
+        zhabangu = zhabangu.append([{'name':code[index],'date':date[index],'amount':amount[index],'flag':0}]) 
         print(str(now))
        
 
 '''
 
 
-
+'''
 
 zhangtinggu =pd.DataFrame(columns=('name','date','amount','flag'))
 zhabangu =pd.DataFrame(columns=('name','date','amount','flag'))
@@ -415,37 +417,41 @@ for index in tscode.index:
                      #print('---------'+str(code[index2]))
                  elif(panduanzhangting(str(high_num),shoupan_num)):
                         zhabangu = zhabangu.append([{'name':code[index2],'date':date[index2],'amount':amount[index2],'flag':0}])
-zhabangu.to_excel( 'zhangtinggu.xlsx',index=False)
+zhabangu.to_excel('zhabangu.xlsx',index=False)
+
+'''
 
 
 
 
 
-
-
-
-t = 0
-while(t>0):
-    if(t == 1000):
-        gengxin.shishijilu(df,1,cal_date[index0])
-        shuangjiaojilu()
-        shuangjiao.dangriyuceshuangjiao(ts,df,result,1)
-        t = t -1
-    else :
-        start = time.perf_counter()
-        t = t -1  
-        try:
-            gengxin.shishijilu(df,0,cal_date[index0])  
-        except BaseException:        
-            print(' ')
-        else:
-            print(' ')
-        shuangjiao.dangriyuceshuangjiao(ts,df,result,0)          
-        end = time.perf_counter()   
-        print('%.2f'%(end - start))
-        ltime = '%.2f'%(end - start)
-        if (float(ltime) < 90):
-            time.sleep(90-float(ltime))
+def shuangjiaoshuju():
+    
+    t = 1
+    while(t>0):
+        if(t == 1000):
+            gengxin.shishijilu(df,1,cal_date[index0])
+            shuangjiaojilu()
+            turn = shuangjiao.dangriyuceshuangjiao(ts,df,result,1)
+            t = t -1
+        else :
+            start = time.perf_counter()
+            t = t -1  
+            try:
+                gengxin.shishijilu(df,0,cal_date[index0])  
+            except BaseException: 
+                turn = '出现问题'
+                print(' ')
+            else:
+                turn = '出现问题'
+                print(' ')
+            turn = shuangjiao.dangriyuceshuangjiao(ts,df,result,0)          
+            end = time.perf_counter()   
+            print('%.2f'%(end - start))
+            ltime = '%.2f'%(end - start)
+            if (float(ltime) < 90):
+                time.sleep(90-float(ltime))
+    return turn
       
 
 
@@ -453,6 +459,18 @@ while(t>0):
 #gengxin.gengxinyiri(df)
 #gengxin.gengxinshuju(ts,df,result)
 #gengxin.gengxinshujuweifuquan(ts,df,result)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

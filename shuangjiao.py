@@ -146,6 +146,7 @@ def dangriyuceshuangjiao(ts,df,result,flag):
     
     numb_low = 0
     
+    turn = ' '
     
     for index in tscode.index:
         qwe = tscode[index]
@@ -177,7 +178,7 @@ def dangriyuceshuangjiao(ts,df,result,flag):
                 first = 0
      
                 #for index2 in price.index:
-                index2 = 0              
+                index2 = 0             
                 number1 = 0              
                 number3 = 0
                 
@@ -206,6 +207,7 @@ def dangriyuceshuangjiao(ts,df,result,flag):
                 ma55= ma5[index2]*1.008
                 ma1010 =ma10[index2]*1.005 
                 
+                
                 if((close1-closep[index2])/closep[index2] < 0.05):
                     numb_low = numb_low +1
                     continue
@@ -230,7 +232,8 @@ def dangriyuceshuangjiao(ts,df,result,flag):
                 if (number1+number3 >= 4 or number3>=3 ):
                     
                      if(shuangjiao_flag[index] == 1):
-                        print(str(name))
+                        turn = str(turn)+'-'+str(name)
+                        #print(str(turn))
                         continue
                     
                     
@@ -272,5 +275,5 @@ def dangriyuceshuangjiao(ts,df,result,flag):
     print('双娇结束'+ '-----'+str(numb_low))        
     result.to_csv('yuceshuangjiao.csv',index=False)
     #print(zxc)
-    return
+    return turn
 
