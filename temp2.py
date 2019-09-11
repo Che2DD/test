@@ -266,7 +266,7 @@ print('当前小时：'+str(int(datetime.datetime.now().hour)))
 
 today = time.strftime("%Y%m%d",time.localtime())
 
-dff = pro.trade_cal(exchange='', start_date='20180101', end_date=today+'')
+dff = pro.trade_cal(exchange='', start_date='20000101', end_date=today+'')
 #dff.to_excel('sssssssssss.xlsx',index=False)
 cal_date = dff.cal_date
 
@@ -276,8 +276,8 @@ while (str(cal_date[index0])!=str(lastjiaoyiri)):
     index0 = index0 - 1
 
 while (str(dff.is_open[index0])!= '1'):
-        index0 = index0 - 1
-index0 = index0 -1
+    index0 = index0 - 1
+
 #df = pd.read_excel('stock.xlsx')
 
 #df.to_excel('stock.xlsx')
@@ -297,7 +297,7 @@ index0 = index0 -1
 #df1 = ts.pro_bar(ts_code='000001.SH', asset='I', start_date='20000101', end_date='20191230')
 
 #gengxin.shishijilu(df,1,lastjiaoyiri)
-zhishu.jinrizhangtinggu(df)
+#zhishu.jinrizhangtinggu(df)
 
 
 #zhenfu(df,0)
@@ -397,6 +397,8 @@ for index in tscode.index:
                  continue
              
              for index2 in date.index:
+                 
+                 
                  if (index2 >= dff.shape[0]-3):
                     
                      break
@@ -421,7 +423,8 @@ zhabangu.to_excel('zhabangu.xlsx',index=False)
 
 '''
 
-
+#dff12 = ts.pro_bar(ts_code='000039.SZ', adj='qfq', adjfactor='True', start_date='20060101', end_date='20191230',ma=[5, 10, 20,30,60,120,250])
+#dff12.to_csv('shuju/000039.SZ.csv',index=False)
 
 
 
@@ -438,14 +441,15 @@ def shuangjiaoshuju():
             start = time.perf_counter()
             t = t -1  
             try:
-                gengxin.shishijilu(df,0,cal_date[index0])  
+                gengxin.shishijilu(df,0,cal_date[index0]) 
+                turn = shuangjiao.dangriyuceshuangjiao(ts,df,result,0) 
             except BaseException: 
                 turn = '出现问题'
-                print(' ')
+                print(' 111111')
             else:
-                turn = '出现问题'
-                print(' ')
-            turn = shuangjiao.dangriyuceshuangjiao(ts,df,result,0)          
+                #turn = '出现问题'
+                print('')
+                     
             end = time.perf_counter()   
             print('%.2f'%(end - start))
             ltime = '%.2f'%(end - start)
@@ -459,12 +463,24 @@ def shuangjiaoshuju():
 #gengxin.gengxinyiri(df)
 #gengxin.gengxinshuju(ts,df,result)
 #gengxin.gengxinshujuweifuquan(ts,df,result)
+#zhishu.selectzhangtinggu(df,lastjiaoyiri)
+#zhishu.selectzhangtinggu(df,lastjiaoyiri)
 
 
+t = 0
 
-
-
-
+while (t < 2000):
+    while (str(dff.is_open[index0])!= '1'):
+        index0 = index0 - 1
+    #if (os.path.isfile('zhangtingguchi/'+cal_date[index0]+'.xlsx')):
+     #   break
+    if (os.path.isfile('zhangtingguchi/'+cal_date[index0]+'.xlsx')):
+        #dff = pd.read_excel('zhangtingguchi/'+str(cal_date[index0]) + '.xlsx')
+        zhishu.selectzhangtinggu(df,cal_date[index0])
+    #df = pro.daily(trade_date=cal_date[index0])
+    #df.to_excel('zhangtingguchi/'+cal_date[index0]+'.xlsx',index=False)
+    print(str(cal_date[index0])+'------'+str(index0))
+    index0 = index0 - 1
 
 
 

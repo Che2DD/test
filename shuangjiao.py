@@ -272,8 +272,14 @@ def dangriyuceshuangjiao(ts,df,result,flag):
                                               
                             
                            
-    print('双娇结束'+ '-----'+str(numb_low))        
+    print('双娇结束'+ '-----'+str(turn))        
     result.to_csv('yuceshuangjiao.csv',index=False)
     #print(zxc)
     return turn
+
+
+
+
+
+
 

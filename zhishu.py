@@ -152,7 +152,64 @@ def jinrizhangtinggu(df):
                     avg_pct2 =  avg_pct2 + pct[0]
                     
      '''          
-                   
+
+def selectzhangtinggu(df,lastjiaoyiri):
+    
+    zhangtinggu =pd.DataFrame(columns=('name','amount','code','flag'))
+    zhabangu =pd.DataFrame(columns=('name','amount','code','flag'))
+        
+    if (os.path.isfile(('zhangtingguchi/'+str(lastjiaoyiri) + '.xlsx'))):
+        dangri = pd.read_excel('zhangtingguchi/'+str(lastjiaoyiri) + '.xlsx')
+    else :
+        print('无数据')
+        return
+    close = dangri.close
+    name = dangri.ts_code
+    amount = dangri.amount
+    pre_close = dangri.pre_close
+    high = dangri.high
+    
+    for index in close.index:       
+       
+        
+        trade_price = Decimal(close[index])
+        trade_price = trade_price.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+        
+        origin_num1 = Decimal(pre_close[index])
+        shoupan_num = origin_num1.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+            
+        origin_num2= Decimal(str(high[index]))
+            
+        high_num = origin_num2.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+        
+     
+        
+        if (panduanzhangting(str(trade_price),shoupan_num)):
+            zhangtinggu = zhangtinggu.append([{'name':name[index],'amount':amount[index],'code':name[index],'flag':0}])         
+               #print(str(name[index2])+'-----'+str(symbo[index2]))                 
+    
+                            #avg_pct1 =  avg_pct1 + pct[0]
+        elif(panduanzhangting(str(high_num),shoupan_num)):
+            zhabangu = zhabangu.append([{'name':name[index],'amount':amount[index],'code':name[index],'flag':0}])
+                            #num1 = (close[1]-high[1])/high[1]*100
+                            #num2 = (openp[0]-close[1])/close[1]*100
+                            #print(str(name)+'++-+++++-+-+-'+str(symbo[index2]))
+    '''
+    if (os.path.isfile('zhangtingguchi/'+(str(lastjiaoyiri) + 'zhangtinggu.xlsx'))):
+        print('无需再次更新当日涨停股池')
+        print('无需再次更新当日炸板股池')
+    else :
+    '''    
+    zhangtinggu.to_excel('zhangtingguchi/'+str(lastjiaoyiri) +  'zhangtinggu.xlsx',index=False)
+    zhabangu.to_excel('zhangtingguchi/'+str(lastjiaoyiri)  + 'zhabangu.xlsx',index=False)           
+
+        
+    
+    
+    return
+    
+    
+                
     #print(str(number1)+'-----'+str(round(avg_pct1/number1,2)))            
     #print(str(number2)+'-----'+str(round(avg_pct2/number2,2))) 
 #选出今日连板股 

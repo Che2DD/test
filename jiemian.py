@@ -32,7 +32,7 @@ class jiemianlei(tkinter.Tk):
                 n2= temp2.shuangjiaoshuju()
                 self.int_n.set(n) # 修改变量
                 self.int_n2.set(n2)
-                self.cond.wait(1) # 可以改为 20秒
+                self.cond.wait(0.1) # 可以改为 20秒
                 if self.stop: break  # 退出线程循环
 
     def end(self, event):

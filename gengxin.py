@@ -59,7 +59,11 @@ def gengxinshujuweifuquan(ts,df,result):
 
 def gengxinyiri(df):
     tscode = df.ts_code
-
+    #df_dangri =pd.DataFrame(columns=('ts_code','trade_date','open','high','low','close','pre_close','change','pct_chg','vol','amount','ma5','ma_v_5','ma10','ma_v_10','ma20','ma_v_20','ma30','ma_v_30','ma60','ma_v_60','ma120','ma_v_120','ma250','ma_v_250'))
+    df1 = ts.pro_bar(ts_code='000001.SH', asset='I', start_date='20000101', end_date='20191230')
+    trade_date = df1.trade_date
+    #if (os.path.isfile('shuju/'+str(trade_date[0])+'.csv')):
+       # df_dangri = pd.read_csv('shuju/'+str(trade_date[0])+'.csv')
     listdate = df.list_date
     symbo = df.symbol
     isst = df.name
@@ -73,7 +77,8 @@ def gengxinyiri(df):
                               
             name = symbo[index]
             #dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date='20080101', end_date='20191230',ma=[5, 10, 20,30,60,120,250])                
-            dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date='20190910', end_date='20190910',ma=[5, 10, 20,30,60,120,250])    
+            dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date='20190911', end_date='20190911',ma=[5, 10, 20,30,60,120,250])    
+            
             dff_None = dff.drop(columns=['adj_factor'])
             #dff_None = pro.daily(ts_code=qwe+'', start_date='20190904', end_date='20190904')
             if (os.path.isfile('shuju/'+str(qwe)+'.csv')):
@@ -93,6 +98,8 @@ def gengxinyiri(df):
             
             if(int(trade_date[0]) <= int(trade_date1[0]) ):
                 continue
+            
+            #df_dangri = df_dangri.append(dff_None)
             
             adjfactor = dff.adj_factor
             adjfactor1 = dff1.adj_factor
@@ -243,6 +250,7 @@ def gengxinyiri(df):
                     n_ma_v_250[0] = (total_v + n_vol[0])/250
                 dff_None = (dff.drop(columns=['adj_factor'])).append(dff_None1)
                 dff = dff.append(dff1)
+                #df_dangri.to_csv('shuju/'+str(trade_date[0])+'d.csv',index=False)
                 
             dff.to_csv('shuju/'+qwe+'.csv',index=False)
             dff_None.to_csv('shuju/'+qwe+'-None.csv',index=False)
@@ -250,6 +258,7 @@ def gengxinyiri(df):
     #shishijilu(df,1)
     #shuangjiaojilu()
     df1 = ts.pro_bar(ts_code='000001.SH', asset='I', start_date='20000101', end_date='20191230')
+    
     df1.to_csv('shangzheng.csv',index=False)
     return
 
