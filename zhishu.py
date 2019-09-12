@@ -208,6 +208,38 @@ def selectzhangtinggu(df,lastjiaoyiri):
     
     return
     
+def selectlianban(df,lastjiaoyiri,lastlastjiaoyiri):
+    lianbangu =pd.DataFrame(columns=('name','amount','code','times','flag'))
+    if (os.path.isfile('zhangtingguchi/'+str(lastjiaoyiri) + 'zhangtinggu.xlsx') and os.path.isfile('zhangtingguchi/'+str(lastlastjiaoyiri) + 'zhangtinggu.xlsx') and os.path.isfile('zhangtingguchi/'+str(lastlastjiaoyiri) + 'lianbangu.xlsx')):
+        dangrizhangting = pd.read_excel('zhangtingguchi/'+str(lastjiaoyiri) + 'zhangtinggu.xlsx')
+        qianrizhangting = pd.read_excel('zhangtingguchi/'+str(lastlastjiaoyiri) + 'zhangtinggu.xlsx')
+        qianrilianban = pd.read_excel('zhangtingguchi/'+str(lastlastjiaoyiri) + 'lianbangu.xlsx')
+    else :
+        
+        print('无数据')
+        return
+    name1 = dangrizhangting.name
+    amount1 = dangrizhangting.amount
+    name2 = qianrizhangting.name
+    name3 = qianrilianban.name
+    times = qianrilianban.times
+    
+    for index1 in name1.index:
+                
+        for index3 in name3.index:
+            if (str(name1[index1] == str(name3[index3]))):
+                timess = int(times[index3])+1
+                lianbangu = lianbangu.append([{'name':name1[index1],'amount':amount1[index1],'code':name1[index1],'times':int(timess),'flag':0}]) 
+                break
+        
+        for index2 in name2.index:
+            if (str(name1[index1] == str(name2[index2]))):
+                lianbangu = lianbangu.append([{'name':name1[index1],'amount':amount1[index1],'code':name1[index1],'flag':0}]) 
+    lianbangu.to_excel('zhangtingguchi/'+str(lastjiaoyiri)  + 'lianbangu.xlsx',index=False)      
+
+    
+    return
+
     
                 
     #print(str(number1)+'-----'+str(round(avg_pct1/number1,2)))            

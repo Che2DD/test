@@ -77,7 +77,7 @@ def gengxinyiri(df):
                               
             name = symbo[index]
             #dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date='20080101', end_date='20191230',ma=[5, 10, 20,30,60,120,250])                
-            dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date='20190911', end_date='20190911',ma=[5, 10, 20,30,60,120,250])    
+            dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date='20190912', end_date='20190912',ma=[5, 10, 20,30,60,120,250])    
             
             dff_None = dff.drop(columns=['adj_factor'])
             #dff_None = pro.daily(ts_code=qwe+'', start_date='20190904', end_date='20190904')
@@ -157,9 +157,7 @@ def gengxinyiri(df):
                 n_ma_v_120 = dff.ma_v_120
                 n_ma_v_250 = dff.ma_v_250
                                 
-                
-                if(dff.shape[0]>1):
-                    print('11111111111111111111111111111')
+              
                     #print(dff)
                 
                 n_close = dff.close

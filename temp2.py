@@ -274,10 +274,10 @@ index0 = dff.shape[0] - 1
 print(cal_date[index0])
 while (str(cal_date[index0])!=str(lastjiaoyiri)):
     index0 = index0 - 1
-
-while (str(dff.is_open[index0])!= '1'):
-    index0 = index0 - 1
-
+index1 = index0 - 1
+while (str(dff.is_open[index1])!= '1'):
+    index1 = index1 - 1
+lastlastjiaoyiri = cal_date[index1]
 #df = pd.read_excel('stock.xlsx')
 
 #df.to_excel('stock.xlsx')
@@ -468,6 +468,26 @@ def shuangjiaoshuju():
 
 
 t = 0
+print(index0)
+index1 = index0 -4927
+print(cal_date[index0])
+index0 = index1 + 1
+while(index0 <= 7194):
+     
+     while (str(dff.is_open[index0])!= '1'):
+        index0 = index0 + 1
+     while (str(dff.is_open[index1])!= '1'):
+        index1 = index1 + 1
+     zhishu.selectlianban(df,cal_date[index0],cal_date[index1])
+     print(cal_date[index0])
+     index1 = index1 + 1
+     index0 = index0 + 1
+
+
+
+
+
+'''
 
 while (t < 2000):
     while (str(dff.is_open[index0])!= '1'):
@@ -482,7 +502,7 @@ while (t < 2000):
     print(str(cal_date[index0])+'------'+str(index0))
     index0 = index0 - 1
 
-
+'''
 
 
 
