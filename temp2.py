@@ -299,10 +299,24 @@ lastlastjiaoyiri = cal_date[index1]
 #gengxin.shishijilu(df,1,lastjiaoyiri)
 #zhishu.jinrizhangtinggu(df)
 
-
 #zhenfu(df,0)
+if (str(dff.is_open[0]) == '1' and int(datetime.datetime.now().hour) > 15 ):
+    t = 25
+    index10 = index1
+    
+    while(t >=0):
+        while (str(dff.is_open[index10])!= '1'):
+            index10 = index10 - 1
+        index10 = index10 -1
+        t= t -1
+    print(cal_date[index10])
+    df12 = pro.new_share(start_date=cal_date[index10], end_date=lastlastjiaoyiri)
+    df12.to_excel('xingu.xlsx',index=False)
 
-#shuangjiaojilu()
+
+
+
+
 def panduanzhangting(shoupan,qianshoupan):
     
     pct = Decimal(str(qianshoupan))/Decimal(10)+ Decimal(str(qianshoupan))
@@ -466,7 +480,7 @@ def shuangjiaoshuju():
 #zhishu.selectzhangtinggu(df,lastjiaoyiri)
 #zhishu.selectzhangtinggu(df,lastjiaoyiri)
 
-
+'''
 t = 0
 print(index0)
 index1 = index0 -4927
@@ -479,23 +493,23 @@ while(index0 <= 7194):
      while (str(dff.is_open[index1])!= '1'):
         index1 = index1 + 1
      zhishu.selectlianban(df,cal_date[index0],cal_date[index1])
-     print(cal_date[index0])
+     print(str(cal_date[index0])+'-------------------------------------------------')
      index1 = index1 + 1
      index0 = index0 + 1
-
-
+'''
 
 
 
 '''
+t = 0
 
-while (t < 2000):
+while (t < 3000):
     while (str(dff.is_open[index0])!= '1'):
         index0 = index0 - 1
     #if (os.path.isfile('zhangtingguchi/'+cal_date[index0]+'.xlsx')):
      #   break
     if (os.path.isfile('zhangtingguchi/'+cal_date[index0]+'.xlsx')):
-        #dff = pd.read_excel('zhangtingguchi/'+str(cal_date[index0]) + '.xlsx')
+        #d11111 = pd.read_excel('zhangtingguchi/'+str(cal_date[index0]) + '.xlsx')
         zhishu.selectzhangtinggu(df,cal_date[index0])
     #df = pro.daily(trade_date=cal_date[index0])
     #df.to_excel('zhangtingguchi/'+cal_date[index0]+'.xlsx',index=False)

@@ -25,6 +25,24 @@ def panduanzhangting(shoupan,qianshoupan):
     else:
         return False
 
+def panduanxingu(ts_code):
+    if (os.path.isfile('xingu.xlsx')):
+        df12 = pd.read_excel('xingu.xlsx')
+        ts_code12 = df12.ts_code
+        d ={'000000':'None'}
+        for index in ts_code12.index:
+                d[ts_code12[index]] = ts_code12.iloc[index] 
+        
+        if  ts_code in d:
+            return True
+        else:
+            return False
+    else:
+        print('无新股数据')
+        return False
+    
+    
+
 #盘后选出今日炸板股及涨停股
 def jinrizhangtinggu(df):
     
@@ -155,6 +173,17 @@ def jinrizhangtinggu(df):
 
 def selectzhangtinggu(df,lastjiaoyiri):
     
+    
+    if (os.path.isfile('xingu.xlsx')):
+        df12 = pd.read_excel('xingu.xlsx')
+        ts_code12 = df12.ts_code
+        d ={'000000':'None'}
+        for index in ts_code12.index:
+                d[ts_code12[index]] = ts_code12.iloc[index] 
+    else:
+        print('无新股数据')
+    
+    
     zhangtinggu =pd.DataFrame(columns=('name','amount','code','flag'))
     zhabangu =pd.DataFrame(columns=('name','amount','code','flag'))
         
@@ -171,29 +200,31 @@ def selectzhangtinggu(df,lastjiaoyiri):
     
     for index in close.index:       
        
-        
-        trade_price = Decimal(close[index])
-        trade_price = trade_price.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
-        
-        origin_num1 = Decimal(pre_close[index])
-        shoupan_num = origin_num1.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+        if name[index] in d:
+            continue
+        else:
+            trade_price = Decimal(close[index])
+            trade_price = trade_price.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
             
-        origin_num2= Decimal(str(high[index]))
+            origin_num1 = Decimal(pre_close[index])
+            shoupan_num = origin_num1.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+                
+            origin_num2= Decimal(str(high[index]))
+                
+            high_num = origin_num2.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
             
-        high_num = origin_num2.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+         
+            
+            if (panduanzhangting(str(trade_price),shoupan_num)):
+                zhangtinggu = zhangtinggu.append([{'name':name[index],'amount':amount[index],'code':name[index],'flag':0}])         
+                   #print(str(name[index2])+'-----'+str(symbo[index2]))                 
         
-     
-        
-        if (panduanzhangting(str(trade_price),shoupan_num)):
-            zhangtinggu = zhangtinggu.append([{'name':name[index],'amount':amount[index],'code':name[index],'flag':0}])         
-               #print(str(name[index2])+'-----'+str(symbo[index2]))                 
-    
-                            #avg_pct1 =  avg_pct1 + pct[0]
-        elif(panduanzhangting(str(high_num),shoupan_num)):
-            zhabangu = zhabangu.append([{'name':name[index],'amount':amount[index],'code':name[index],'flag':0}])
-                            #num1 = (close[1]-high[1])/high[1]*100
-                            #num2 = (openp[0]-close[1])/close[1]*100
-                            #print(str(name)+'++-+++++-+-+-'+str(symbo[index2]))
+                                #avg_pct1 =  avg_pct1 + pct[0]
+            elif(panduanzhangting(str(high_num),shoupan_num)):
+                zhabangu = zhabangu.append([{'name':name[index],'amount':amount[index],'code':name[index],'flag':0}])
+                                #num1 = (close[1]-high[1])/high[1]*100
+                                #num2 = (openp[0]-close[1])/close[1]*100
+                                #print(str(name)+'++-+++++-+-+-'+str(symbo[index2]))
     '''
     if (os.path.isfile('zhangtingguchi/'+(str(lastjiaoyiri) + 'zhangtinggu.xlsx'))):
         print('无需再次更新当日涨停股池')
@@ -224,17 +255,26 @@ def selectlianban(df,lastjiaoyiri,lastlastjiaoyiri):
     name3 = qianrilianban.name
     times = qianrilianban.times
     
+    flag = 0
+    
     for index1 in name1.index:
                 
         for index3 in name3.index:
-            if (str(name1[index1] == str(name3[index3]))):
+            if (name1[index1][:-3] == name3[index3][:-3]):
                 timess = int(times[index3])+1
-                lianbangu = lianbangu.append([{'name':name1[index1],'amount':amount1[index1],'code':name1[index1],'times':int(timess),'flag':0}]) 
+                lianbangu = lianbangu.append([{'name':name1[index1],'amount':amount1[index1],'code':name1[index1],'times':int(timess),'flag':0}])
+                print('连板'+str(name1[index1])+str(name3[index3]))
+                flag = 1
                 break
         
         for index2 in name2.index:
-            if (str(name1[index1] == str(name2[index2]))):
-                lianbangu = lianbangu.append([{'name':name1[index1],'amount':amount1[index1],'code':name1[index1],'flag':0}]) 
+            if (name1[index1][:-3] == name2[index2][:-3]):
+                if (flag == 1):
+                    flag = 0
+                    break;
+                lianbangu = lianbangu.append([{'name':name1[index1],'amount':amount1[index1],'code':name1[index1],'times':int(2),'flag':0}]) 
+                print(str(name1[index1])+str(name2[index2]))
+                break;
     lianbangu.to_excel('zhangtingguchi/'+str(lastjiaoyiri)  + 'lianbangu.xlsx',index=False)      
 
     
@@ -300,4 +340,5 @@ def jinrilianban(df):
    #print(str(number1)+'-----'+str(round(avg_pct1/number1,2)))            
    #print(str(number2)+'-----'+str(round(avg_pct2/number2,2))) 
     return    
+
 
