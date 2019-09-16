@@ -233,7 +233,7 @@ def selectzhangtinggu(df,lastjiaoyiri):
     '''    
     zhangtinggu.to_excel('zhangtingguchi/'+str(lastjiaoyiri) +  'zhangtinggu.xlsx',index=False)
     zhabangu.to_excel('zhangtingguchi/'+str(lastjiaoyiri)  + 'zhabangu.xlsx',index=False)           
-
+    print('涨停更新完毕')
         
     
     
@@ -276,7 +276,7 @@ def selectlianban(df,lastjiaoyiri,lastlastjiaoyiri):
                 #print(str(name1[index1])+str(name2[index2]))
                 break;
     lianbangu.to_excel('zhangtingguchi/'+str(lastjiaoyiri)  + 'lianbangu.xlsx',index=False)      
-
+    print('连板更新完毕')
     
     return
 

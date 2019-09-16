@@ -57,7 +57,7 @@ def gengxinshujuweifuquan(ts,df,result):
              dff.to_csv('shuju/'+qwe+'-None.csv',index=False)
     return
 
-def gengxinyiri(df,lastjiaoyiri,lastlastjiaoyiri):
+def gengxinyiri(df,lastjiaoyiri,lastlastjiaoyiri,pro):
     tscode = df.ts_code
     #df_dangri =pd.DataFrame(columns=('ts_code','trade_date','open','high','low','close','pre_close','change','pct_chg','vol','amount','ma5','ma_v_5','ma10','ma_v_10','ma20','ma_v_20','ma30','ma_v_30','ma60','ma_v_60','ma120','ma_v_120','ma250','ma_v_250'))
     df1 = ts.pro_bar(ts_code='000001.SH', asset='I', start_date='20000101', end_date='20191230')
@@ -71,7 +71,7 @@ def gengxinyiri(df,lastjiaoyiri,lastlastjiaoyiri):
     for index in tscode.index:
         #2826
         ldate = listdate[index]
-        if (int(symbo[index]) >= 0 and (int(ldate) <= int(lastjiaoyiri))):
+        if (int(symbo[index]) >= 0 ):
             qwe = tscode[index]
             ldate = listdate[index]
             
@@ -79,6 +79,10 @@ def gengxinyiri(df,lastjiaoyiri,lastlastjiaoyiri):
             name = symbo[index]
             #dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date='20080101', end_date='20191230',ma=[5, 10, 20,30,60,120,250])                
             dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date=lastjiaoyiri, end_date=lastjiaoyiri,ma=[5, 10, 20,30,60,120,250])    
+            if (dff.empty):
+                continue
+            
+            
             ##print(dff)
             dff_None = dff.drop(columns=['adj_factor'])
            
