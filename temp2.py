@@ -271,13 +271,15 @@ dff = pro.trade_cal(exchange='', start_date='20000101', end_date=today+'')
 cal_date = dff.cal_date
 
 index0 = dff.shape[0] - 1
-print(cal_date[index0])
+print(str(cal_date[index0]))
 while (str(cal_date[index0])!=str(lastjiaoyiri)):
     index0 = index0 - 1
 index1 = index0 - 1
 while (str(dff.is_open[index1])!= '1'):
     index1 = index1 - 1
 lastlastjiaoyiri = cal_date[index1]
+
+
 #df = pd.read_excel('stock.xlsx')
 
 #df.to_excel('stock.xlsx')
@@ -300,7 +302,9 @@ lastlastjiaoyiri = cal_date[index1]
 #zhishu.jinrizhangtinggu(df)
 
 #zhenfu(df,0)
-if (str(dff.is_open[0]) == '1' and int(datetime.datetime.now().hour) > 15 ):
+num = dff.shape[0] - 1
+
+if (str(dff.is_open[num]) == '1' and int(datetime.datetime.now().hour) > 15 ):
     t = 25
     index10 = index1
     
@@ -309,9 +313,9 @@ if (str(dff.is_open[0]) == '1' and int(datetime.datetime.now().hour) > 15 ):
             index10 = index10 - 1
         index10 = index10 -1
         t= t -1
-    print(cal_date[index10])
     df12 = pro.new_share(start_date=cal_date[index10], end_date=lastlastjiaoyiri)
     df12.to_excel('xingu.xlsx',index=False)
+    print(cal_date[index10])
 
 
 
@@ -474,11 +478,16 @@ def shuangjiaoshuju():
 
 
 #shuangjiao.shuangjiaohuice(ts,df,resulthuice)
-#gengxin.gengxinyiri(df)
+#gengxin.gengxinyiri(df,lastjiaoyiri,lastlastjiaoyiri)
 #gengxin.gengxinshuju(ts,df,result)
 #gengxin.gengxinshujuweifuquan(ts,df,result)
+    
+
+
+#df13 = pro.daily(trade_date=lastjiaoyiri)
+#df13.to_excel('zhangtingguchi/'+lastjiaoyiri+'.xlsx',index=False)  
 #zhishu.selectzhangtinggu(df,lastjiaoyiri)
-#zhishu.selectzhangtinggu(df,lastjiaoyiri)
+#zhishu.selectlianban(df,lastjiaoyiri,lastlastjiaoyiri)
 
 '''
 t = 0
@@ -497,8 +506,6 @@ while(index0 <= 7194):
      index1 = index1 + 1
      index0 = index0 + 1
 '''
-
-
 
 '''
 t = 0

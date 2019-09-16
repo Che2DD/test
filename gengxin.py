@@ -57,7 +57,7 @@ def gengxinshujuweifuquan(ts,df,result):
              dff.to_csv('shuju/'+qwe+'-None.csv',index=False)
     return
 
-def gengxinyiri(df):
+def gengxinyiri(df,lastjiaoyiri,lastlastjiaoyiri):
     tscode = df.ts_code
     #df_dangri =pd.DataFrame(columns=('ts_code','trade_date','open','high','low','close','pre_close','change','pct_chg','vol','amount','ma5','ma_v_5','ma10','ma_v_10','ma20','ma_v_20','ma30','ma_v_30','ma60','ma_v_60','ma120','ma_v_120','ma250','ma_v_250'))
     df1 = ts.pro_bar(ts_code='000001.SH', asset='I', start_date='20000101', end_date='20191230')
@@ -69,25 +69,27 @@ def gengxinyiri(df):
     isst = df.name
     
     for index in tscode.index:
-        
-        if (int(symbo[index]) > 0  and isst[index].find('N') < 0):
+        #2826
+        ldate = listdate[index]
+        if (int(symbo[index]) >= 0 and (int(ldate) <= int(lastjiaoyiri))):
             qwe = tscode[index]
             ldate = listdate[index]
-            print(str(qwe)+':::::::::'+str(ldate)+'------------'+str(index)+'------')
-                              
+            
+            print(str(qwe)+':::::::::'+str(lastjiaoyiri)+'-----'+str(ldate)+'-------'+str(index)+'------')                  
             name = symbo[index]
             #dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date='20080101', end_date='20191230',ma=[5, 10, 20,30,60,120,250])                
-            dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date='20190912', end_date='20190912',ma=[5, 10, 20,30,60,120,250])    
-            
+            dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date=lastjiaoyiri, end_date=lastjiaoyiri,ma=[5, 10, 20,30,60,120,250])    
+            ##print(dff)
             dff_None = dff.drop(columns=['adj_factor'])
+           
             #dff_None = pro.daily(ts_code=qwe+'', start_date='20190904', end_date='20190904')
             if (os.path.isfile('shuju/'+str(qwe)+'.csv')):
                 dff1 = pd.read_csv('shuju/'+qwe+'.csv')
                 dff_None1 = pd.read_csv('shuju/'+qwe+'-None.csv')
             else :
-                dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date='20060101', end_date='20191230',ma=[5, 10, 20,30,60,120,250])
+                dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date='20060101', end_date=lastjiaoyiri,ma=[5, 10, 20,30,60,120,250])
                 dff.to_csv('shuju/'+qwe+'.csv',index=False)
-                dff_None = ts.pro_bar(ts_code=qwe+'',  start_date='20060101', end_date='20191230',ma=[5, 10, 20,30,60,120,250])
+                dff_None = ts.pro_bar(ts_code=qwe+'',  start_date='20060101', end_date=lastjiaoyiri,ma=[5, 10, 20,30,60,120,250])
                 dff_None.to_csv('shuju/'+qwe+'-None.csv',index=False)
                 continue
             
@@ -107,18 +109,18 @@ def gengxinyiri(df):
             mid = round(adjfactor1[0],3)
             
             if (str(adjfactor[0]) != str(mid) ):
-                dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date='20060101', end_date='20191230',ma=[5, 10, 20,30,60,120,250])
+                dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date='20060101', end_date=lastjiaoyiri,ma=[5, 10, 20,30,60,120,250])
                 dff.to_csv('shuju/'+qwe+'.csv',index=False)
-                dff_None = ts.pro_bar(ts_code=qwe+'',  start_date='20060101', end_date='20191230',ma=[5, 10, 20,30,60,120,250])
+                dff_None = ts.pro_bar(ts_code=qwe+'',  start_date='20060101', end_date=lastjiaoyiri,ma=[5, 10, 20,30,60,120,250])
                 dff_None.to_csv('shuju/'+qwe+'-None.csv',index=False)
                 with open('a.txt', mode='a') as filename:
                     filename.write('adjfactor1'+str(qwe)+'------'+str(adjfactor[0])+'-------'+str(mid))
                     filename.write('\n')
                 continue
             if (dff1.shape[0] == 4 or dff1.shape[0] ==9 or dff1.shape[0] ==19 or dff1.shape[0] ==29 or dff1.shape[0] ==59 or dff1.shape[0] ==119 or dff1.shape[0] ==249):    
-                dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date='20060101', end_date='20191230',ma=[5, 10, 20,30,60,120,250])
+                dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date='20060101', end_date=lastjiaoyiri,ma=[5, 10, 20,30,60,120,250])
                 dff.to_csv('shuju/'+qwe+'.csv',index=False)
-                dff_None = ts.pro_bar(ts_code=qwe+'',  start_date='20060101', end_date='20191230',ma=[5, 10, 20,30,60,120,250])
+                dff_None = ts.pro_bar(ts_code=qwe+'',  start_date='20060101', end_date=lastjiaoyiri,ma=[5, 10, 20,30,60,120,250])
                 dff_None.to_csv('shuju/'+qwe+'-None.csv',index=False)
                 with open('a.txt', mode='a') as filename:
                     filename.write('rixian'+str(qwe))
@@ -255,9 +257,15 @@ def gengxinyiri(df):
     #zhenfu(df,0)
     #shishijilu(df,1)
     #shuangjiaojilu()
-    df1 = ts.pro_bar(ts_code='000001.SH', asset='I', start_date='20000101', end_date='20191230')
+    df1 = ts.pro_bar(ts_code='000001.SH', asset='I', start_date='20000101', end_date=lastjiaoyiri)
     
     df1.to_csv('shangzheng.csv',index=False)
+    
+    df13 = pro.daily(trade_date=lastjiaoyiri)
+    df13.to_excel('zhangtingguchi/'+lastjiaoyiri+'.xlsx',index=False)  
+    zhishu.selectzhangtinggu(df,lastjiaoyiri)
+    zhishu.selectlianban(df,lastjiaoyiri,lastlastjiaoyiri)
+    
     return
 
 

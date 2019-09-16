@@ -263,7 +263,7 @@ def selectlianban(df,lastjiaoyiri,lastlastjiaoyiri):
             if (name1[index1][:-3] == name3[index3][:-3]):
                 timess = int(times[index3])+1
                 lianbangu = lianbangu.append([{'name':name1[index1],'amount':amount1[index1],'code':name1[index1],'times':int(timess),'flag':0}])
-                print('连板'+str(name1[index1])+str(name3[index3]))
+                #print('连板'+str(name1[index1])+str(name3[index3]))
                 flag = 1
                 break
         
@@ -273,7 +273,7 @@ def selectlianban(df,lastjiaoyiri,lastlastjiaoyiri):
                     flag = 0
                     break;
                 lianbangu = lianbangu.append([{'name':name1[index1],'amount':amount1[index1],'code':name1[index1],'times':int(2),'flag':0}]) 
-                print(str(name1[index1])+str(name2[index2]))
+                #print(str(name1[index1])+str(name2[index2]))
                 break;
     lianbangu.to_excel('zhangtingguchi/'+str(lastjiaoyiri)  + 'lianbangu.xlsx',index=False)      
 
