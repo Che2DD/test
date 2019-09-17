@@ -478,7 +478,7 @@ def shuangjiaoshuju():
 
 
 #shuangjiao.shuangjiaohuice(ts,df,resulthuice)
-#gengxin.gengxinyiri(df,lastjiaoyiri,lastlastjiaoyiri,pro)
+gengxin.gengxinyiri(df,lastjiaoyiri,lastlastjiaoyiri,pro)
 #gengxin.gengxinshuju(ts,df,result)
 #gengxin.gengxinshujuweifuquan(ts,df,result)
     
@@ -488,6 +488,26 @@ def shuangjiaoshuju():
 #df13.to_excel('zhangtingguchi/'+lastjiaoyiri+'.xlsx',index=False)  
 #zhishu.selectzhangtinggu(df,lastjiaoyiri)
 #zhishu.selectlianban(df,lastjiaoyiri,lastlastjiaoyiri)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 '''
 t = 0
@@ -507,6 +527,7 @@ while(index0 <= 7194):
      index0 = index0 + 1
 '''
 
+#获取该日股票数据及涨停炸板股
 '''
 t = 0
 
@@ -525,8 +546,24 @@ while (t < 3000):
 
 '''
 
+#按日期列出各项指数及数据
+'''
+t = 0
 
+while (t < 3000):
+    while (str(dff.is_open[index0])!= '1'):
+        index0 = index0 - 1
+    #if (os.path.isfile('zhangtingguchi/'+cal_date[index0]+'.xlsx')):
+     #   break
+    if (os.path.isfile('zhangtingguchi/'+cal_date[index0]+'.xlsx')):
+        #d11111 = pd.read_excel('zhangtingguchi/'+str(cal_date[index0]) + '.xlsx')
+        zhishu.selectzhangtinggu(df,cal_date[index0])
+    #df = pro.daily(trade_date=cal_date[index0])
+    #df.to_excel('zhangtingguchi/'+cal_date[index0]+'.xlsx',index=False)
+    print(str(cal_date[index0])+'------'+str(index0))
+    index0 = index0 - 1
 
+'''
 
 
 
