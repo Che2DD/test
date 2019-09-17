@@ -478,7 +478,9 @@ def shuangjiaoshuju():
 
 
 #shuangjiao.shuangjiaohuice(ts,df,resulthuice)
-gengxin.gengxinyiri(df,lastjiaoyiri,lastlastjiaoyiri,pro)
+#gengxin.gengxinyiri(df,lastjiaoyiri,lastlastjiaoyiri,pro)
+#gengxin.gengxinyiri_yici(df,lastjiaoyiri,lastlastjiaoyiri,pro)
+    
 #gengxin.gengxinshuju(ts,df,result)
 #gengxin.gengxinshujuweifuquan(ts,df,result)
     
