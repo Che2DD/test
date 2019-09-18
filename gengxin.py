@@ -343,23 +343,28 @@ def shishijilu(df,flag,lastjiaoyiri):
 
 def gengxinyiri_yici(df,lastjiaoyiri,lastlastjiaoyiri,pro):
     
+    
+    
     df13 = pro.daily(trade_date=lastjiaoyiri)
     
     ts_code = df13.ts_code
+    
+    dizhi = 'shuju/'
 
     for index in ts_code.index:
         df_dangri =pd.DataFrame(columns=('ts_code','trade_date','open','high','low','close','pre_close','change','pct_chg','vol','amount','adj_factor','ma5','ma_v_5','ma10','ma_v_10','ma20','ma_v_20','ma30','ma_v_30','ma60','ma_v_60','ma120','ma_v_120','ma250','ma_v_250'))
 
         qwe = ts_code[index]
+ 
         if (int(ts_code[index][:-3]) >= 0 ):
-            if (os.path.isfile('shuju/sss/'+str(ts_code[index])+'.csv')):
-                dff1 = pd.read_csv('shuju/sss/'+ts_code[index]+'.csv')
-                dff_None1 = pd.read_csv('shuju/sss/'+ts_code[index]+'-None.csv')
+            if (os.path.isfile(dizhi+str(ts_code[index])+'.csv')):
+                dff1 = pd.read_csv(dizhi+ts_code[index]+'.csv')
+                dff_None1 = pd.read_csv(dizhi+ts_code[index]+'-None.csv')
             else :
                 dff = ts.pro_bar(ts_code=ts_code[index]+'', adj='qfq', adjfactor='True', start_date='20060101', end_date=lastjiaoyiri,ma=[5, 10, 20,30,60,120,250])
-                dff.to_csv('shuju/'+ts_code[index]+'.csv',index=False)
+                dff.to_csv(dizhi+ts_code[index]+'.csv',index=False)
                 dff_None = ts.pro_bar(ts_code=ts_code[index]+'',  start_date='20060101', end_date=lastjiaoyiri,ma=[5, 10, 20,30,60,120,250])
-                dff_None.to_csv('shuju/'+ts_code[index]+'-None.csv',index=False)
+                dff_None.to_csv(dizhi+ts_code[index]+'-None.csv',index=False)
                 continue
 
             
@@ -377,20 +382,20 @@ def gengxinyiri_yici(df,lastjiaoyiri,lastlastjiaoyiri,pro):
             if (str(mid1) != str(mid2) ):
                 
                 dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date='20060101', end_date=lastjiaoyiri,ma=[5, 10, 20,30,60,120,250])
-                dff.to_csv('shuju/'+qwe+'.csv',index=False)
+                dff.to_csv(dizhi+qwe+'.csv',index=False)
                 dff_None = ts.pro_bar(ts_code=qwe+'',  start_date='20060101', end_date=lastjiaoyiri,ma=[5, 10, 20,30,60,120,250])
-                dff_None.to_csv('shuju/'+qwe+'-None.csv',index=False)
+                dff_None.to_csv(dizhi+qwe+'-None.csv',index=False)
                 with open('a.txt', mode='a') as filename:
-                    filename.write('adjfactor1'+str(qwe)+'------'+str(adjfactor[0])+'-------'+str(mid))
+                    filename.write('adjfactor1'+str(qwe)+'复权')
                     filename.write('\n')
                    
                 continue
             if (dff1.shape[0] == 4 or dff1.shape[0] ==9 or dff1.shape[0] ==19 or dff1.shape[0] ==29 or dff1.shape[0] ==59 or dff1.shape[0] ==119 or dff1.shape[0] ==249):    
                 
                 dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date='20060101', end_date=lastjiaoyiri,ma=[5, 10, 20,30,60,120,250])
-                dff.to_csv('shuju/'+qwe+'.csv',index=False)
+                dff.to_csv(dizhi+qwe+'.csv',index=False)
                 dff_None = ts.pro_bar(ts_code=qwe+'',  start_date='20060101', end_date=lastjiaoyiri,ma=[5, 10, 20,30,60,120,250])
-                dff_None.to_csv('shuju/'+qwe+'-None.csv',index=False)
+                dff_None.to_csv(dizhi+qwe+'-None.csv',index=False)
                 with open('a.txt', mode='a') as filename:
                     filename.write('rixian'+str(qwe))
                     filename.write('\n')
@@ -414,23 +419,23 @@ def gengxinyiri_yici(df,lastjiaoyiri,lastlastjiaoyiri,pro):
                 ma_v_250 = dff1.ma_v_250
                    
                 
-                '''
-                n_ma5 = df_dangri.ma5
-                n_ma10 = df_dangri.ma10
-                n_ma20 = df_dangri.ma20
-                n_ma30 = df_dangri.ma30
-                n_ma60 = df_dangri.ma60
-                n_ma120 = df_dangri.ma120
-                n_ma250 = df_dangri.ma250
+                
+                n_ma5 = None
+                n_ma10 = None
+                n_ma20 = None
+                n_ma30 = None
+                n_ma60 = None
+                n_ma120 = None
+                n_ma250 = None
                             
-                n_ma_v_5 = df_dangri.ma_v_5
-                n_ma_v_10 = df_dangri.ma_v_10
-                n_ma_v_20 = df_dangri.ma_v_20
-                n_ma_v_30 = df_dangri.ma_v_30
-                n_ma_v_60 = df_dangri.ma_v_60
-                n_ma_v_120 = df_dangri.ma_v_120
-                n_ma_v_250 = df_dangri.ma_v_250
-                '''
+                n_ma_v_5 = None
+                n_ma_v_10 = None
+                n_ma_v_20 = None
+                n_ma_v_30 = None
+                n_ma_v_60 = None
+                n_ma_v_120 = None
+                n_ma_v_250 = None
+                
                 
                 sda = dff1.iloc[:,5]
                 sds = dff1.iloc[:,9]
@@ -528,11 +533,11 @@ def gengxinyiri_yici(df,lastjiaoyiri,lastlastjiaoyiri,pro):
                 #dff1.loc[0]=[qwe,df13.trade_date[index],df13.open[index],df13.high[index],df13.low[index],df13.close[index],df13.pre_close[index],df13.change[index],df13.pct_chg[index],df13.vol[index],df13.amount[index],dff1.adj_factor[0],n_ma5,n_ma_v_5,n_ma10,n_ma_v_10,n_ma20,n_ma_v_20,n_ma30,n_ma_v_30,n_ma60,n_ma_v_60,n_ma120,n_ma_v_120,n_ma250,n_ma_v_250]
                 #dff_None1.loc[0]=[qwe,df13.trade_date[index],df13.open[index],df13.high[index],df13.low[index],df13.close[index],df13.pre_close[index],df13.change[index],df13.pct_chg[index],df13.vol[index],df13.amount[index],n_ma5,n_ma_v_5,n_ma10,n_ma_v_10,n_ma20,n_ma_v_20,n_ma30,n_ma_v_30,n_ma60,n_ma_v_60,n_ma120,n_ma_v_120,n_ma250,n_ma_v_250]
                 
-                dff_None1 = (df_dangri_None.drop(columns=['adj_factor'])).append(dff_None1)
+                dff_None1 = df_dangri_None.append(dff_None1)
                 dff1 = df_dangri.append(dff1)
                 
-                dff1.to_csv('shuju/sss/'+qwe+'.csv',index=False)
-                dff_None1.to_csv('shuju/sss/'+qwe+'-None.csv',index=False)
+                dff1.to_csv(dizhi+qwe+'.csv',index=False)
+                dff_None1.to_csv(dizhi+qwe+'-None.csv',index=False)
                 
                 
                 
@@ -543,7 +548,7 @@ def gengxinyiri_yici(df,lastjiaoyiri,lastlastjiaoyiri,pro):
     #zhenfu(df,0)
     #shishijilu(df,1)
     #shuangjiaojilu()
-    '''
+   
     
     df1 = ts.pro_bar(ts_code='000001.SH', asset='I', start_date='20000101', end_date=lastjiaoyiri)
     
@@ -551,9 +556,9 @@ def gengxinyiri_yici(df,lastjiaoyiri,lastlastjiaoyiri,pro):
     
     df13 = pro.daily(trade_date=lastjiaoyiri)
     df13.to_excel('zhangtingguchi/'+lastjiaoyiri+'.xlsx',index=False)  
-    zhishu.selectzhangtinggu(df,lastjiaoyiri)
+    zhishu.selectzhangting(df,lastjiaoyiri)
     zhishu.selectlianban(df,lastjiaoyiri,lastlastjiaoyiri)
     
-    '''
+    
     
     return

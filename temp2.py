@@ -488,29 +488,21 @@ def shuangjiaoshuju():
 
 #df13 = pro.daily(trade_date=lastjiaoyiri)
 #df13.to_excel('zhangtingguchi/'+lastjiaoyiri+'.xlsx',index=False)  
-#zhishu.selectzhangtinggu(df,lastjiaoyiri)
+#zhishu.selectzhangting(df,lastjiaoyiri)
 #zhishu.selectlianban(df,lastjiaoyiri,lastlastjiaoyiri)
 
 
+a = zhishu.selectlianbanzhishu(df,lastjiaoyiri,lastlastjiaoyiri)
 
+print(a)
 
+a = zhishu.selectzhangtingzhishu(df,lastjiaoyiri,lastlastjiaoyiri)
 
+print(a)
 
+a = zhishu.selectzhabanzhishu(df,lastjiaoyiri,lastlastjiaoyiri)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+print(a)
 '''
 t = 0
 print(index0)
