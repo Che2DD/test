@@ -188,6 +188,8 @@ def selectlianbanzhishu(df,lastjiaoyiri,lastlastjiaoyiri):
                     avg_low = avg_low + pct_chg[index2]
                     num_low = num_low + 1
                 break
+    if (num_low == 0 and num_high == 0):
+        return 999
     return (avg_low+avg_high)/(num_low+num_high)
 
 def selectzhangtingzhishu(df,lastjiaoyiri,lastlastjiaoyiri):
@@ -245,11 +247,21 @@ def selectzhabanzhishu(df,lastjiaoyiri,lastlastjiaoyiri):
                 avg2 = avg2 + pct_chg[index2]
                 num = num + 1
             break
+    if (num == 0):
+        return 999
     return avg1/num,avg2/num
 
 
-
-
+def pingjunzhangfu(lastjiaoyiri):
+    if (os.path.isfile('zhangtingguchi/'+str(lastjiaoyiri)+'.xlsx')):
+        dff1 =  pd.read_excel('zhangtingguchi/'+str(lastjiaoyiri) + '.xlsx')
+    pct_chg = dff1.pct_chg
+    result = 0
+    number = 0
+    for index in pct_chg.index:
+        result = result + pct_chg[index]
+        number = number + 1
+    return result/number
 
 
 

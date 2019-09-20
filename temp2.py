@@ -335,111 +335,6 @@ def panduanzhangting(shoupan,qianshoupan):
         return False
 
 
-'''
-#dff1 = pd.read_excel( 'zhangtinggu.xlsx',index=False)
-dff1 = pd.read_excel( 'zhabangu.xlsx',index=False)
-date = dff1.date
-zhabangu =pd.DataFrame(columns=('name','date','amount','flag'))
-#zhangtinggu =pd.DataFrame(columns=('name','date','amount','flag'))
-last = date[0]
-zhongjian = None
-flag = 0
-
-for index in date.index:
-    code = dff1.name
-    amount = dff1.amount
-    
-    
-    
-    now = date[index]
-    if (last == now):
-        zhabangu = zhabangu.append([{'name':code[index],'date':date[index],'amount':amount[index],'flag':0}]) 
-    else : 
-        zhabangu.to_excel('zhangtingguchi/'+ str(last) + 'zhabangu.xlsx',index=False)
-        
-        zhangtinggu1 = pd.read_excel('zhangtingguchi/'+str(last) + 'zhangtinggu.xlsx')
-
-        
-        if (flag == 1):     
-            lianbangu =pd.DataFrame(columns=('name','amount','code','times','flag'))
-            zuori = pd.read_excel('zhangtingguchi/'+str(zhongjian) + 'zhangtinggu.xlsx')
-            code1 = zhangtinggu1.name
-            code2 = zuori.name
-            name = zhangtinggu1.name
-            amount2 = zhangtinggu1.amount
-            amount1 = zuori.amount
-            for index1 in code1.index:
-                for index2 in code2.index:                  
-                    if (str(code1[index1])==str(code2[index2])):
-                       lianbangu = lianbangu.append([{'name':code2[index2],'amount':amount1[index2],'code':code1[index1],'flag':0}]) 
-            
-            
-            if(lianbangu.shape[0]>=1):
-                lianbangu.to_excel('zhangtingguchi/'+str(zhongjian)  + 'lianbangu.xlsx',index=False)  
-            
-        if (flag == 0):
-            flag = 1
-        
-        
-        zhongjian = last
-        last = now
-        zhabangu =pd.DataFrame(columns=('name','date','amount','flag'))
-        zhabangu = zhabangu.append([{'name':code[index],'date':date[index],'amount':amount[index],'flag':0}]) 
-        print(str(now))
-       
-
-'''
-
-
-'''
-
-zhangtinggu =pd.DataFrame(columns=('name','date','amount','flag'))
-zhabangu =pd.DataFrame(columns=('name','date','amount','flag'))
-for index in tscode.index:
-    qwe = tscode[index]    
-    print(str(qwe)+'::::::::------------'+str(index)+'------')
-    name = symbo[index]
-    isst = df.name
-    if ( isst[index].find('ST') < 0 ):
-            
-        if (os.path.isfile('shuju/'+str(qwe)+'-None.csv')):
-             dff = pd.read_csv('shuju/'+str(qwe)+'-None.csv')
-             code = dff.ts_code
-             date = dff.trade_date
-             close = dff.close
-             pre_close = dff.pre_close
-             amount = dff.amount
-             high = dff.high
-             if (dff.shape[0] < 15):
-                 print('太短')
-                 continue
-             
-             for index2 in date.index:
-                 
-                 
-                 if (index2 >= dff.shape[0]-3):
-                    
-                     break
-                               
-                 
-                 trade_price = Decimal(close[index2])
-                 trade_price = trade_price.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
-                    
-                 origin_num1 = Decimal(pre_close[index2])
-                 shoupan_num = origin_num1.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
-                 
-                 high_num = Decimal(high[index2])
-                 high_num = high_num.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
-
-                 if (panduanzhangting(str(trade_price),shoupan_num)):
-                     #zhangtinggu = zhangtinggu.append([{'name':code[index2],'date':date[index2],'amount':amount[index2],'flag':0}])
-                     continue
-                     #print('---------'+str(code[index2]))
-                 elif(panduanzhangting(str(high_num),shoupan_num)):
-                        zhabangu = zhabangu.append([{'name':code[index2],'date':date[index2],'amount':amount[index2],'flag':0}])
-zhabangu.to_excel('zhabangu.xlsx',index=False)
-
-'''
 
 #dff12 = ts.pro_bar(ts_code='000039.SZ', adj='qfq', adjfactor='True', start_date='20060101', end_date='20191230',ma=[5, 10, 20,30,60,120,250])
 #dff12.to_csv('shuju/000039.SZ.csv',index=False)
@@ -491,7 +386,7 @@ def shuangjiaoshuju():
 #zhishu.selectzhangting(df,lastjiaoyiri)
 #zhishu.selectlianban(df,lastjiaoyiri,lastlastjiaoyiri)
 
-
+'''
 a = zhishu.selectlianbanzhishu(df,lastjiaoyiri,lastlastjiaoyiri)
 
 print(a)
@@ -503,6 +398,59 @@ print(a)
 a = zhishu.selectzhabanzhishu(df,lastjiaoyiri,lastlastjiaoyiri)
 
 print(a)
+
+a = zhishu.pingjunzhangfu(lastjiaoyiri)
+
+print(a)
+
+'''
+
+
+
+
+
+
+
+t = 0
+print(index0)
+index1 = index0 -1927
+print(cal_date[index0])
+index0 = index1 + 1
+#zhishu =pd.DataFrame(columns=('shangzheng','chuangyeban','lianbanzhishu','zhabanzhishu','zhangtingzhishu','pingjunzhangfu'))
+zhishudata =pd.DataFrame(columns=('lianbanzhishu','zhabanzhishu','zhangtingzhishu','pingjunzhangfu'))
+
+shangzheng =pd.read_excel('000001.SH.xlsx',index=False)
+zhongxiaoban =pd.read_excel('399005.SZ.xlsx',index=False)
+chuangyeban =pd.read_excel('399006.SZ.xlsx',index=False)
+
+
+
+
+while(index0 <= 7194):
+     
+     while (str(dff.is_open[index0])!= '1'):
+        index0 = index0 + 1
+     while (str(dff.is_open[index1])!= '1'):
+        index1 = index1 + 1
+     lastjiaoyiri = cal_date[index0]
+     lastlastjiaoyiri = cal_date[index1]
+     lianbanzhishu = zhishu.selectlianbanzhishu(df,lastjiaoyiri,lastlastjiaoyiri)  
+     zhabanzhishu = zhishu.selectzhabanzhishu(df,lastjiaoyiri,lastlastjiaoyiri)
+     zhangtingzhishu = zhishu.selectzhangtingzhishu(df,lastjiaoyiri,lastlastjiaoyiri)
+     pingjunzhangfu = zhishu.pingjunzhangfu(lastjiaoyiri)
+     zhishudata = zhishudata.append([{'lianbanzhishu':lianbanzhishu,'zhabanzhishu':zhabanzhishu,'zhangtingzhishu':zhangtingzhishu,'pingjunzhangfu':pingjunzhangfu}])
+
+     print(str(cal_date[index0])+'-------------------------------------------------')
+     index1 = index1 + 1
+     index0 = index0 + 1
+zhishudata.to_excel('zhangtingguchi/'+str(lastlastjiaoyiri)+'zhangtinggu.xlsx')
+
+
+
+
+
+
+
 '''
 t = 0
 print(index0)

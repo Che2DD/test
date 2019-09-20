@@ -25,7 +25,7 @@ def gengxinshuju(ts,df,result):
     isst = df.name
     
     for index in tscode.index:
-        if (int(symbo[index]) >= 2948):
+        if (int(symbo[index]) >= 0):
              qwe = tscode[index]
              ldate = listdate[index]
              print(str(qwe)+':::::::::'+str(ldate)+'------------'+str(index)+'------')
@@ -34,7 +34,7 @@ def gengxinshuju(ts,df,result):
              name = symbo[index]
              dff = ts.pro_bar(ts_code=qwe+'', adj='qfq', adjfactor='True', start_date='20060101', end_date='20191230',ma=[5, 10, 20,30,60,120,250])
              dff.to_csv('shuju/'+qwe+'.csv',index=False)
-             dff.to_csv('shuju/sss/'+qwe+'.csv',index=False)
+             
     df1 = ts.pro_bar(ts_code='000001.SH', asset='I', start_date='20000101', end_date='20191230')
     df1.to_csv('shangzheng.csv',index=False)
     return
@@ -47,7 +47,7 @@ def gengxinshujuweifuquan(ts,df,result):
     isst = df.name
     
     for index in tscode.index:
-        if (int(symbo[index]) >= 300597):
+        if (int(symbo[index]) >= 0):
              qwe = tscode[index]
              ldate = listdate[index]
              print(str(qwe)+':::::::::'+str(ldate)+'------------'+str(index)+'------')
@@ -56,7 +56,7 @@ def gengxinshujuweifuquan(ts,df,result):
              name = symbo[index]
              dff = ts.pro_bar(ts_code=qwe+'', start_date='20060101', end_date='20191230',ma=[5, 10, 20,30,60,120,250])
              dff.to_csv('shuju/'+qwe+'-None.csv',index=False)
-             dff.to_csv('shuju/sss/'+qwe+'-None.csv',index=False)
+             
     return
 
 def gengxinyiri(df,lastjiaoyiri,lastlastjiaoyiri,pro):
@@ -550,14 +550,23 @@ def gengxinyiri_yici(df,lastjiaoyiri,lastlastjiaoyiri,pro):
     #shuangjiaojilu()
    
     
-    df1 = ts.pro_bar(ts_code='000001.SH', asset='I', start_date='20000101', end_date=lastjiaoyiri)
-    
-    df1.to_csv('shangzheng.csv',index=False)
-    
     df13 = pro.daily(trade_date=lastjiaoyiri)
     df13.to_excel('zhangtingguchi/'+lastjiaoyiri+'.xlsx',index=False)  
     zhishu.selectzhangting(df,lastjiaoyiri)
     zhishu.selectlianban(df,lastjiaoyiri,lastlastjiaoyiri)
+    
+    
+    dd = '399006.SZ'
+    dff = pro.index_daily(ts_code=dd)
+    dff.to_excel(dd+'.xlsx',index=False)
+    
+    dd = '399005.SZ'
+    dff = pro.index_daily(ts_code=dd)
+    dff.to_excel(dd+'.xlsx',index=False)
+    
+    dd = '000001.SH'
+    dff = pro.index_daily(ts_code=dd)
+    dff.to_excel(dd+'.xlsx',index=False)
     
     
     
