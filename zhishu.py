@@ -189,7 +189,7 @@ def selectlianbanzhishu(df,lastjiaoyiri,lastlastjiaoyiri):
                     num_low = num_low + 1
                 break
     if (num_low == 0 and num_high == 0):
-        return 999
+        return None
     return (avg_low+avg_high)/(num_low+num_high)
 
 def selectzhangtingzhishu(df,lastjiaoyiri,lastlastjiaoyiri):
@@ -248,7 +248,7 @@ def selectzhabanzhishu(df,lastjiaoyiri,lastlastjiaoyiri):
                 num = num + 1
             break
     if (num == 0):
-        return 999
+        return None
     return avg1/num,avg2/num
 
 

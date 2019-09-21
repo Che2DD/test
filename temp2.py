@@ -366,8 +366,7 @@ def shuangjiaoshuju():
             end = time.perf_counter()   
             print('%.2f'%(end - start))
             ltime = '%.2f'%(end - start)
-            if (float(ltime) < 90):
-                time.sleep(90-float(ltime))
+            
     return turn
       
 
@@ -413,11 +412,11 @@ print(a)
 
 t = 0
 print(index0)
-index1 = index0 -1927
+index1 = index0 -1926
 print(cal_date[index0])
 index0 = index1 + 1
 #zhishu =pd.DataFrame(columns=('shangzheng','chuangyeban','lianbanzhishu','zhabanzhishu','zhangtingzhishu','pingjunzhangfu'))
-zhishudata =pd.DataFrame(columns=('lianbanzhishu','zhabanzhishu','zhangtingzhishu','pingjunzhangfu'))
+zhishudata =pd.DataFrame(columns=('date','lianbanzhishu','zhabanzhishu','zhangtingzhishu','pingjunzhangfu'))
 
 shangzheng =pd.read_excel('000001.SH.xlsx',index=False)
 zhongxiaoban =pd.read_excel('399005.SZ.xlsx',index=False)
@@ -432,18 +431,28 @@ while(index0 <= 7194):
         index0 = index0 + 1
      while (str(dff.is_open[index1])!= '1'):
         index1 = index1 + 1
+              
      lastjiaoyiri = cal_date[index0]
      lastlastjiaoyiri = cal_date[index1]
+     
+     
      lianbanzhishu = zhishu.selectlianbanzhishu(df,lastjiaoyiri,lastlastjiaoyiri)  
+    
      zhabanzhishu = zhishu.selectzhabanzhishu(df,lastjiaoyiri,lastlastjiaoyiri)
+    
+     
      zhangtingzhishu = zhishu.selectzhangtingzhishu(df,lastjiaoyiri,lastlastjiaoyiri)
+
      pingjunzhangfu = zhishu.pingjunzhangfu(lastjiaoyiri)
-     zhishudata = zhishudata.append([{'lianbanzhishu':lianbanzhishu,'zhabanzhishu':zhabanzhishu,'zhangtingzhishu':zhangtingzhishu,'pingjunzhangfu':pingjunzhangfu}])
+
+     zhishudata = zhishudata.append([{'date':lastjiaoyiri,'lianbanzhishu':lianbanzhishu,'zhabanzhishu':zhabanzhishu,'zhangtingzhishu':zhangtingzhishu,'pingjunzhangfu':pingjunzhangfu}])
 
      print(str(cal_date[index0])+'-------------------------------------------------')
      index1 = index1 + 1
      index0 = index0 + 1
-zhishudata.to_excel('zhangtingguchi/'+str(lastlastjiaoyiri)+'zhangtinggu.xlsx')
+     zhishudata.to_excel('zhangtingguchi/zhishu.xlsx',index=False)
+
+     
 
 
 
