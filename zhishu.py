@@ -158,7 +158,9 @@ def selectlianban(df,lastjiaoyiri,lastlastjiaoyiri):
     #print(str(number2)+'-----'+str(round(avg_pct2/number2,2))) 
 
 
-def selectlianbanzhishu(df,lastjiaoyiri,lastlastjiaoyiri):
+
+
+def selectlianbanzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100):
 
     avg_high = 0
     avg_low = 0
@@ -172,6 +174,16 @@ def selectlianbanzhishu(df,lastjiaoyiri,lastlastjiaoyiri):
     name = dff1.name
     times = dff1.times
     for index in name.index:
+
+        if (int(times[index]) >= 3):
+            avg_high = avg_high + d100[name[index]]
+            num_high = num_high + 1
+        else:
+            avg_low = avg_low + d100[name[index]]
+            num_low = num_low + 1
+        break
+        
+        '''
         if (os.path.isfile('shuju/'+str(name[index])+'.csv')):
             dff2 =  pd.read_csv('shuju/'+str(name[index])+'.csv')
         else :
@@ -188,11 +200,12 @@ def selectlianbanzhishu(df,lastjiaoyiri,lastlastjiaoyiri):
                     avg_low = avg_low + pct_chg[index2]
                     num_low = num_low + 1
                 break
+        '''
     if (num_low == 0 and num_high == 0):
         return None
     return (avg_low+avg_high)/(num_low+num_high)
 
-def selectzhangtingzhishu(df,lastjiaoyiri,lastlastjiaoyiri):
+def selectzhangtingzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100):
 
     avg = 0
     num = 0
@@ -204,6 +217,10 @@ def selectzhangtingzhishu(df,lastjiaoyiri,lastlastjiaoyiri):
     name = dff1.name
 
     for index in name.index:
+        avg = avg + d100[name[index]]
+        num = num + 1
+        
+        '''
         if (os.path.isfile('shuju/'+str(name[index])+'.csv')):
             dff2 =  pd.read_csv('shuju/'+str(name[index])+'.csv')
         else :
@@ -216,6 +233,7 @@ def selectzhangtingzhishu(df,lastjiaoyiri,lastlastjiaoyiri):
                 avg = avg + pct_chg[index2]
                 num = num + 1
                 break
+        '''
         
     return avg/num
 
@@ -232,6 +250,10 @@ def selectzhabanzhishu(df,lastjiaoyiri,lastlastjiaoyiri):
     name = dff1.name
 
     for index in name.index:
+        
+        
+        
+        '''
         if (os.path.isfile('shuju/'+str(name[index])+'.csv')):
             dff2 =  pd.read_csv('shuju/'+str(name[index])+'.csv')
         else :
@@ -246,7 +268,8 @@ def selectzhabanzhishu(df,lastjiaoyiri,lastlastjiaoyiri):
                 avg1 = avg1 + pct_chg[index2] + ((close[index2+1]-high[index2+1])/high[index2+1]*100)
                 avg2 = avg2 + pct_chg[index2]
                 num = num + 1
-            break
+                break
+        '''
     if (num == 0):
         return None
     return avg1/num,avg2/num
@@ -258,11 +281,11 @@ def pingjunzhangfu(lastjiaoyiri):
     pct_chg = dff1.pct_chg
     result = 0
     number = 0
-    for index in pct_chg.index:
-        result = result + pct_chg[index]
-        number = number + 1
-    return result/number
 
+    result = dff1.pct_chg.sum()/dff1.shape[0]
+   
+    return result
+    
 
 
 

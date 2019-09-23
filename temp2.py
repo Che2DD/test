@@ -346,6 +346,7 @@ def shuangjiaoshuju():
     t = 1
     while(t>0):
         if(t == 1000):
+            
             gengxin.shishijilu(df,1,cal_date[index0])
             shuangjiaojilu()
             turn = shuangjiao.dangriyuceshuangjiao(ts,df,result,1)
@@ -356,9 +357,9 @@ def shuangjiaoshuju():
             try:
                 gengxin.shishijilu(df,0,cal_date[index0]) 
                 turn = shuangjiao.dangriyuceshuangjiao(ts,df,result,0) 
-            except BaseException: 
+            except BaseException as e: 
                 turn = '出现问题'
-                print(' 111111')
+                print(e)
             else:
                 #turn = '出现问题'
                 print('')
@@ -366,7 +367,8 @@ def shuangjiaoshuju():
             end = time.perf_counter()   
             print('%.2f'%(end - start))
             ltime = '%.2f'%(end - start)
-            
+            if (float(ltime) < 2):
+                time.sleep(15)
     return turn
       
 
@@ -404,11 +406,30 @@ print(a)
 
 '''
 
+'''
+t100 = 0
+print(index0)
+index100 = index0 -1926
+d100 ={'20000101':'9999999'}
+while(index100 <= 7194):
+     while (str(dff.is_open[index100])!= '1'):
+         index100 = index100 + 1
+     d100[cal_date[index100]] = index0 - index100
+     index100 = index100 + 1
+'''
 
 
 
 
 
+
+
+
+
+
+
+
+d100 ={'000000.SH':'0.00'}
 
 t = 0
 print(index0)
@@ -424,7 +445,6 @@ chuangyeban =pd.read_excel('399006.SZ.xlsx',index=False)
 
 
 
-
 while(index0 <= 7194):
      
      while (str(dff.is_open[index0])!= '1'):
@@ -435,13 +455,21 @@ while(index0 <= 7194):
      lastjiaoyiri = cal_date[index0]
      lastlastjiaoyiri = cal_date[index1]
      
+     if (os.path.isfile('zhangtingguchi/'+str(lastjiaoyiri)+'.xlsx')):
+         data = pd.read_excel('zhangtingguchi/'+str(lastjiaoyiri) + '.xlsx')
+     else:
+         print(lastjiaoyiri)
+     ts_code_data = data.ts_code  
+     pct_chg_data = data.pct_chg
+     for index in ts_code_data.index:
+         d100[ts_code_data[index]] = pct_chg_data[index]
      
-     lianbanzhishu = zhishu.selectlianbanzhishu(df,lastjiaoyiri,lastlastjiaoyiri)  
+     lianbanzhishu = zhishu.selectlianbanzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100)  
     
-     zhabanzhishu = zhishu.selectzhabanzhishu(df,lastjiaoyiri,lastlastjiaoyiri)
-    
+     #zhabanzhishu = zhishu.selectzhabanzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100)
+     zhabanzhishu = 0
      
-     zhangtingzhishu = zhishu.selectzhangtingzhishu(df,lastjiaoyiri,lastlastjiaoyiri)
+     zhangtingzhishu = zhishu.selectzhangtingzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100)
 
      pingjunzhangfu = zhishu.pingjunzhangfu(lastjiaoyiri)
 
@@ -453,7 +481,6 @@ while(index0 <= 7194):
      zhishudata.to_excel('zhangtingguchi/zhishu.xlsx',index=False)
 
      
-
 
 
 
