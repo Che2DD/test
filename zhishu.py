@@ -181,7 +181,7 @@ def selectlianbanzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100):
         else:
             avg_low = avg_low + d100[name[index]]
             num_low = num_low + 1
-        break
+        
         
         '''
         if (os.path.isfile('shuju/'+str(name[index])+'.csv')):
@@ -203,7 +203,7 @@ def selectlianbanzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100):
         '''
     if (num_low == 0 and num_high == 0):
         return None
-    return (avg_low+avg_high)/(num_low+num_high)
+    return round((avg_low+avg_high)/(num_low+num_high),2)
 
 def selectzhangtingzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100):
 
@@ -235,9 +235,9 @@ def selectzhangtingzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100):
                 break
         '''
         
-    return avg/num
+    return round(avg/num,2)
 
-def selectzhabanzhishu(df,lastjiaoyiri,lastlastjiaoyiri):
+def selectzhabanzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100,d100_1):
 
     avg1= 0
     avg2 = 0
@@ -250,8 +250,8 @@ def selectzhabanzhishu(df,lastjiaoyiri,lastlastjiaoyiri):
     name = dff1.name
 
     for index in name.index:
-        
-        
+        avg1 = avg1 + d100[name[index]] -((1-((100+d100_1[name[index]])/110))*100)
+        num = num +1
         
         '''
         if (os.path.isfile('shuju/'+str(name[index])+'.csv')):
@@ -272,7 +272,7 @@ def selectzhabanzhishu(df,lastjiaoyiri,lastlastjiaoyiri):
         '''
     if (num == 0):
         return None
-    return avg1/num,avg2/num
+    return round(avg1/num,2)
 
 
 def pingjunzhangfu(lastjiaoyiri):
@@ -284,7 +284,7 @@ def pingjunzhangfu(lastjiaoyiri):
 
     result = dff1.pct_chg.sum()/dff1.shape[0]
    
-    return result
+    return round(result,2)
     
 
 
