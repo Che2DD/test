@@ -343,7 +343,7 @@ def panduanzhangting(shoupan,qianshoupan):
 
 def shuangjiaoshuju():
     
-    t = 1000
+    t = 1
     while(t>0):
         if(t == 1000):
             
@@ -437,7 +437,7 @@ index1 = index0 -1926
 print(cal_date[index0])
 index0 = index1 + 1
 #zhishu =pd.DataFrame(columns=('shangzheng','chuangyeban','lianbanzhishu','zhabanzhishu','zhangtingzhishu','pingjunzhangfu'))
-zhishudata =pd.DataFrame(columns=('date','lianbanzhishu','zhangtingzhishu','zhabanzhishu','pingjunzhangfu'))
+zhishudata =pd.DataFrame(columns=('date','lianbanzhishu','zhangtingzhishu','zhabanzhishu','pingjunzhangfu','zhabanlv'))
 
 shangzheng =pd.read_excel('000001.SH.xlsx',index=False)
 zhongxiaoban =pd.read_excel('399005.SZ.xlsx',index=False)
@@ -455,13 +455,13 @@ ts_code_data = data_1.ts_code
 pct_chg_data = data_1.pct_chg
 for index in ts_code_data.index:
     d100_1[ts_code_data[index]] = pct_chg_data[index]
-while(index0 <= 7194):
+while(index0 <= dff.shape[0]-1):
      
      while (str(dff.is_open[index0])!= '1'):
         index0 = index0 + 1
      while (str(dff.is_open[index1])!= '1'):
         index1 = index1 + 1
-              
+     print(str(cal_date[index0])+'-------------------------------------------------')        
      lastjiaoyiri = cal_date[index0]
      lastlastjiaoyiri = cal_date[index1]
      
@@ -474,25 +474,42 @@ while(index0 <= 7194):
      for index in ts_code_data.index:
          d100[ts_code_data[index]] = pct_chg_data[index]
      
-     lianbanzhishu = zhishu.selectlianbanzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100)
+     lianbanzhishu_zu = zhishu.selectlianbanzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100)
     
-     zhabanzhishu = zhishu.selectzhabanzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100,d100_1)
+     zhabanzhishu_zu = zhishu.selectzhabanzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100,d100_1)
  
      
      d100_1 = d100
      
-     zhangtingzhishu = zhishu.selectzhangtingzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100)
+     zhangtingzhishu_zu = zhishu.selectzhangtingzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100)
 
      pingjunzhangfu = zhishu.pingjunzhangfu(lastjiaoyiri)
+     if (zhabanzhishu_zu == None):
+         zhabanlv = 0
+     else:
+         zhabanlv = round(zhabanzhishu_zu[1]/(zhabanzhishu_zu[1]+zhangtingzhishu_zu[1]),2)
+     
+     if (lianbanzhishu_zu == None):
+         lianbanzhishu = 0
+     else :
+         lianbanzhishu = lianbanzhishu_zu[0]
+     
+     if (zhangtingzhishu_zu == None):
+         zhangtingzhishu = 0
+     else :
+         zhangtingzhishu = zhangtingzhishu_zu[0]
+     if (zhabanzhishu_zu == None):
+         zhabanzhishu = 0
+     else :
+         zhabanzhishu = zhabanzhishu_zu[0]   
+        
+     zhishudata = zhishudata.append([{'date':lastjiaoyiri,'lianbanzhishu':lianbanzhishu,'zhangtingzhishu':zhangtingzhishu,'zhabanzhishu':zhabanzhishu,'pingjunzhangfu':pingjunzhangfu,'zhabanlv':zhabanlv}])
 
-     zhishudata = zhishudata.append([{'date':lastjiaoyiri,'lianbanzhishu':lianbanzhishu,'zhangtingzhishu':zhangtingzhishu,'zhabanzhishu':zhabanzhishu,'pingjunzhangfu':pingjunzhangfu}])
-
-     print(str(cal_date[index0])+'-------------------------------------------------')
      index1 = index1 + 1
      index0 = index0 + 1
      zhishudata.to_excel('zhangtingguchi/zhishu.xlsx',index=False)
 
-     
+ 
 
 
 
