@@ -336,6 +336,108 @@ def pingjunzhangfu(lastjiaoyiri):
 
 
 
+
+
+
+
+
+
+
+
+def selectlianbanzhishu_open(df,lastjiaoyiri,lastlastjiaoyiri,d100_open):
+
+    avg_high = 0
+    avg_low = 0
+    num_high = 0
+    num_low = 0
+    if (os.path.isfile('zhangtingguchi/'+str(lastlastjiaoyiri)+'lianbangu.xlsx')):
+        dff1 =  pd.read_excel('zhangtingguchi/'+str(lastlastjiaoyiri) + 'lianbangu.xlsx')
+    else :
+        print('无'+str(lastlastjiaoyiri)+'交易日连板数据')
+        return None
+    name = dff1.name
+    times = dff1.times
+    for index in name.index:
+        
+        if name[index] in d100_open:
+        
+            if (int(times[index]) >= 3):
+                avg_high = avg_high + d100_open[name[index]]
+                num_high = num_high + 1
+            else:
+                avg_low = avg_low + d100_open[name[index]]
+                num_low = num_low + 1
+            
+            
+            '''
+            if (os.path.isfile('shuju/'+str(name[index])+'.csv')):
+                dff2 =  pd.read_csv('shuju/'+str(name[index])+'.csv')
+            else :
+                print('无'+str(name[index])+'数据')
+                break
+            trade_date = dff2.trade_date
+            pct_chg = dff2.pct_chg
+            for index2 in trade_date.index:
+                if (str(trade_date[index2]) == str(lastjiaoyiri)):
+                    if (int(times[index]) >= 3):
+                        avg_high = avg_high + pct_chg[index2]
+                        num_high = num_high + 1
+                    else :
+                        avg_low = avg_low + pct_chg[index2]
+                        num_low = num_low + 1
+                    break
+            '''
+
+    if (num_low == 0 and num_high == 0):
+        return None
+    return round((avg_low+avg_high)/(num_low+num_high),2),(num_low+num_high)
+
+def selectzhangtingzhishu_open(df,lastjiaoyiri,lastlastjiaoyiri,d100_open):
+
+    avg = 0
+    num = 0
+    if (os.path.isfile('zhangtingguchi/'+str(lastlastjiaoyiri)+'zhangtinggu.xlsx')):
+        dff1 =  pd.read_excel('zhangtingguchi/'+str(lastlastjiaoyiri) + 'zhangtinggu.xlsx')
+    else :
+        print('无'+str(lastlastjiaoyiri)+'交易日涨停数据')
+        return None
+    name = dff1.name
+
+    for index in name.index:
+        
+        if name[index] in d100_open:
+        
+            avg = avg + d100_open[name[index]]
+            num = num + 1
+        
+        
+        '''
+        if (os.path.isfile('shuju/'+str(name[index])+'.csv')):
+            dff2 =  pd.read_csv('shuju/'+str(name[index])+'.csv')
+        else :
+            print('无'+str(name[index])+'数据')
+            break
+        trade_date = dff2.trade_date
+        pct_chg = dff2.pct_chg
+        for index2 in trade_date.index:
+            if (str(trade_date[index2]) == str(lastjiaoyiri)):   
+                avg = avg + pct_chg[index2]
+                num = num + 1
+                break
+        '''
+        
+    return round(avg/num,2),num
+
+
+
+
+
+
+
+
+
+
+
 #盘后选出今日炸板股及涨停股
 def jinrizhangtinggu(df):
     

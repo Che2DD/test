@@ -568,6 +568,8 @@ def gengxinyiri_yici(df,lastjiaoyiri,lastlastjiaoyiri,pro):
     dff = pro.index_daily(ts_code=dd)
     dff.to_excel(dd+'.xlsx',index=False)
     
-    
+    dddd = '000016.SH'
+    dff = pro.index_daily(ts_code=dddd)
+    dff.to_excel(dddd+'.xlsx',index=False)
     
     return

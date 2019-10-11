@@ -426,90 +426,113 @@ while(index100 <= 7194):
 
 
 
-
-
-
-d100 ={'000000.SH':'0.00'}
-d100_1 ={'000000.SH':'0.00'}
-t = 0
-print(index0)
-index1 = index0 -1926
-print(cal_date[index0])
-index0 = index1 + 1
-#zhishu =pd.DataFrame(columns=('shangzheng','chuangyeban','lianbanzhishu','zhabanzhishu','zhangtingzhishu','pingjunzhangfu'))
-zhishudata =pd.DataFrame(columns=('date','lianbanzhishu','zhangtingzhishu','zhabanzhishu','pingjunzhangfu','zhabanlv'))
-
-shangzheng =pd.read_excel('000001.SH.xlsx',index=False)
-zhongxiaoban =pd.read_excel('399005.SZ.xlsx',index=False)
-chuangyeban =pd.read_excel('399006.SZ.xlsx',index=False)
-
-
-
-while (str(dff.is_open[index1])!= '1'):
-        index1 = index1 + 1
-if (os.path.isfile('zhangtingguchi/'+str(cal_date[index1])+'.xlsx')):
-    data_1 = pd.read_excel('zhangtingguchi/'+str(cal_date[index1]) + '.xlsx')
-else:
-    print(cal_date[index1])
-ts_code_data = data_1.ts_code  
-pct_chg_data = data_1.pct_chg
-for index in ts_code_data.index:
-    d100_1[ts_code_data[index]] = pct_chg_data[index]
-while(index0 <= dff.shape[0]-1):
-     
-     while (str(dff.is_open[index0])!= '1'):
-        index0 = index0 + 1
-     while (str(dff.is_open[index1])!= '1'):
-        index1 = index1 + 1
-     print(str(cal_date[index0])+'-------------------------------------------------')        
-     lastjiaoyiri = cal_date[index0]
-     lastlastjiaoyiri = cal_date[index1]
-     
-     if (os.path.isfile('zhangtingguchi/'+str(lastjiaoyiri)+'.xlsx')):
-         data = pd.read_excel('zhangtingguchi/'+str(lastjiaoyiri) + '.xlsx')
-     else:
-         print(lastjiaoyiri)
-     ts_code_data = data.ts_code  
-     pct_chg_data = data.pct_chg
-     for index in ts_code_data.index:
-         d100[ts_code_data[index]] = pct_chg_data[index]
-     
-     lianbanzhishu_zu = zhishu.selectlianbanzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100)
+flag_d100 = 1
+if (flag_d100 == 1):    
+    d100 ={'000000.SH':'0.00'}
+    d100_1 ={'000000.SH':'0.00'}
+    d100_open ={'000000.SH':'0.00'}
+    d100_1_open ={'000000.SH':'0.00'}
+    t = 0
+    print(index0)
+    index1 = index0 -4600
+    print(cal_date[index0])
+    index0 = index1 + 1
+    #zhishu =pd.DataFrame(columns=('shangzheng','chuangyeban','lianbanzhishu','zhabanzhishu','zhangtingzhishu','pingjunzhangfu'))
     
-     zhabanzhishu_zu = zhishu.selectzhabanzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100,d100_1)
- 
-     
-     d100_1 = d100
-     
-     zhangtingzhishu_zu = zhishu.selectzhangtingzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100)
-
-     pingjunzhangfu = zhishu.pingjunzhangfu(lastjiaoyiri)
-     if (zhabanzhishu_zu == None):
-         zhabanlv = 0
-     else:
-         zhabanlv = round(zhabanzhishu_zu[1]/(zhabanzhishu_zu[1]+zhangtingzhishu_zu[1]),2)
-     
-     if (lianbanzhishu_zu == None):
-         lianbanzhishu = 0
-     else :
-         lianbanzhishu = lianbanzhishu_zu[0]
-     
-     if (zhangtingzhishu_zu == None):
-         zhangtingzhishu = 0
-     else :
-         zhangtingzhishu = zhangtingzhishu_zu[0]
-     if (zhabanzhishu_zu == None):
-         zhabanzhishu = 0
-     else :
-         zhabanzhishu = zhabanzhishu_zu[0]   
+    zhishudata =pd.DataFrame(columns=('date','lianbanzhishu_open','lianbanzhishu','zhangtingzhishu_open','zhangtingzhishu','zhabanzhishu','zhabanlv','pingjunzhangfu'))
+    
+    shangzheng50 =pd.read_excel('000016.SH.xlsx',index=False)
+    zhongxiaoban =pd.read_excel('399005.SZ.xlsx',index=False)
+    chuangyeban =pd.read_excel('399006.SZ.xlsx',index=False)
+    
+    
+    
+    while (str(dff.is_open[index1])!= '1'):
+            index1 = index1 + 1
+    if (os.path.isfile('zhangtingguchi/'+str(cal_date[index1])+'.xlsx')):
+        data_1 = pd.read_excel('zhangtingguchi/'+str(cal_date[index1]) + '.xlsx')
+    else:
+        print(cal_date[index1])
+    ts_code_data = data_1.ts_code  
+    pct_chg_data = data_1.pct_chg
+    open_data = data_1.open
+    pre_close_data = data_1.pre_close
+    for index in ts_code_data.index:
+        d100_1[ts_code_data[index]] = pct_chg_data[index]
+        d100_1_open[ts_code_data[index]] =round((open_data[index]-pre_close_data[index])/pre_close_data[index]*100,2)
+    while(index0 <= dff.shape[0]-1):
+         
+         while (str(dff.is_open[index0])!= '1'):
+            index0 = index0 + 1
+         while (str(dff.is_open[index1])!= '1'):
+            index1 = index1 + 1
+         print(str(cal_date[index0])+'-------------------------------------------------')        
+         lastjiaoyiri = cal_date[index0]
+         lastlastjiaoyiri = cal_date[index1]
+         
+         if (os.path.isfile('zhangtingguchi/'+str(lastjiaoyiri)+'.xlsx')):
+             data = pd.read_excel('zhangtingguchi/'+str(lastjiaoyiri) + '.xlsx')
+         else:
+             print(lastjiaoyiri)
+         ts_code_data = data.ts_code  
+         pct_chg_data = data.pct_chg
+         open_data = data.open
+         pre_close_data = data.pre_close
+         for index in ts_code_data.index:
+             d100[ts_code_data[index]] = pct_chg_data[index]
+             d100_open[ts_code_data[index]] =round((open_data[index]-pre_close_data[index])/pre_close_data[index]*100,2)
+         
+         lianbanzhishu_zu = zhishu.selectlianbanzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100)
         
-     zhishudata = zhishudata.append([{'date':lastjiaoyiri,'lianbanzhishu':lianbanzhishu,'zhangtingzhishu':zhangtingzhishu,'zhabanzhishu':zhabanzhishu,'pingjunzhangfu':pingjunzhangfu,'zhabanlv':zhabanlv}])
+         zhabanzhishu_zu = zhishu.selectzhabanzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100,d100_1)
+     
+         lianbanzhishu_zu_open = zhishu.selectlianbanzhishu_open(df,lastjiaoyiri,lastlastjiaoyiri,d100_open)
+         
+         
+         d100_1 = d100
+         d100_1_open = d100_open
+         
+         zhangtingzhishu_zu = zhishu.selectzhangtingzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100)
+         zhangtingzhishu_zu_open = zhishu.selectzhangtingzhishu_open(df,lastjiaoyiri,lastlastjiaoyiri,d100_open)
+    
+         pingjunzhangfu = zhishu.pingjunzhangfu(lastjiaoyiri)
+         if (zhabanzhishu_zu == None or zhangtingzhishu_zu == None):
+             zhabanlv = None
+         else:
+             zhabanlv = round(zhabanzhishu_zu[1]/(zhabanzhishu_zu[1]+zhangtingzhishu_zu[1]),2)
+         
+         if (lianbanzhishu_zu == None):
+             lianbanzhishu = None
+         else :
+             lianbanzhishu = lianbanzhishu_zu[0]
+             
+         if (lianbanzhishu_zu_open == None):
+             lianbanzhishu_open = None
+         else :
+             lianbanzhishu_open = lianbanzhishu_zu_open[0]
+         
+         if (zhangtingzhishu_zu_open == None):
+             zhangtingzhishu_open = None
+         else :
+             zhangtingzhishu_open = zhangtingzhishu_zu_open[0]
+         
+         if (zhangtingzhishu_zu == None):
+             zhangtingzhishu = None
+         else :
+             zhangtingzhishu = zhangtingzhishu_zu[0]
+             
+         if (zhabanzhishu_zu == None):
+             zhabanzhishu = None
+         else :
+             zhabanzhishu = zhabanzhishu_zu[0]   
+            
+         zhishudata = zhishudata.append([{'date':lastjiaoyiri,'lianbanzhishu_open':lianbanzhishu_open,'lianbanzhishu':lianbanzhishu,'zhangtingzhishu_open':zhangtingzhishu_open,'zhangtingzhishu':zhangtingzhishu,'zhabanzhishu':zhabanzhishu,'zhabanlv':zhabanlv,'pingjunzhangfu':pingjunzhangfu}])
+    
+         index1 = index1 + 1
+         index0 = index0 + 1
+         zhishudata.to_excel('zhangtingguchi/zhishu.xlsx',index=False)
 
-     index1 = index1 + 1
-     index0 = index0 + 1
-     zhishudata.to_excel('zhangtingguchi/zhishu.xlsx',index=False)
 
- 
 
 
 
