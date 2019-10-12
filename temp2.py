@@ -423,9 +423,6 @@ while(index100 <= 7194):
 
 
 
-
-
-
 flag_d100 = 1
 if (flag_d100 == 1):    
     d100 ={'000000.SH':'0.00'}
@@ -439,7 +436,7 @@ if (flag_d100 == 1):
     index0 = index1 + 1
     #zhishu =pd.DataFrame(columns=('shangzheng','chuangyeban','lianbanzhishu','zhabanzhishu','zhangtingzhishu','pingjunzhangfu'))
     
-    zhishudata =pd.DataFrame(columns=('date','lianbanzhishu_open','lianbanzhishu','zhangtingzhishu_open','zhangtingzhishu','zhabanzhishu','zhabanlv','pingjunzhangfu'))
+    zhishudata =pd.DataFrame(columns=('date','lianbanzhishu_open','lianbanzhishu','lianbanzhishu_num','zhangtingzhishu_open','zhangtingzhishu','zhangtingzhishu_num','zhabanzhishu','zhabanlv','pingjunzhangfu'))
     
     shangzheng50 =pd.read_excel('000016.SH.xlsx',index=False)
     zhongxiaoban =pd.read_excel('399005.SZ.xlsx',index=False)
@@ -505,7 +502,7 @@ if (flag_d100 == 1):
              lianbanzhishu = None
          else :
              lianbanzhishu = lianbanzhishu_zu[0]
-             
+             lianbanzhishu_num = lianbanzhishu_zu[1]
          if (lianbanzhishu_zu_open == None):
              lianbanzhishu_open = None
          else :
@@ -520,13 +517,14 @@ if (flag_d100 == 1):
              zhangtingzhishu = None
          else :
              zhangtingzhishu = zhangtingzhishu_zu[0]
+             zhangtingzhishu_num = zhangtingzhishu_zu[1]
              
          if (zhabanzhishu_zu == None):
              zhabanzhishu = None
          else :
              zhabanzhishu = zhabanzhishu_zu[0]   
             
-         zhishudata = zhishudata.append([{'date':lastjiaoyiri,'lianbanzhishu_open':lianbanzhishu_open,'lianbanzhishu':lianbanzhishu,'zhangtingzhishu_open':zhangtingzhishu_open,'zhangtingzhishu':zhangtingzhishu,'zhabanzhishu':zhabanzhishu,'zhabanlv':zhabanlv,'pingjunzhangfu':pingjunzhangfu}])
+         zhishudata = zhishudata.append([{'date':lastjiaoyiri,'lianbanzhishu_open':lianbanzhishu_open,'lianbanzhishu':lianbanzhishu,'lianbanzhishu_num':lianbanzhishu_num,'zhangtingzhishu_open':zhangtingzhishu_open,'zhangtingzhishu':zhangtingzhishu,'zhangtingzhishu_num':zhangtingzhishu_num,'zhabanzhishu':zhabanzhishu,'zhabanlv':zhabanlv,'pingjunzhangfu':pingjunzhangfu}])
     
          index1 = index1 + 1
          index0 = index0 + 1
@@ -538,30 +536,33 @@ if (flag_d100 == 1):
 
 
 
-
 '''
+
 t = 0
 print(index0)
 index1 = index0 -4927
 print(cal_date[index0])
-index0 = index1 + 1
-while(index0 <= 7194):
+
+while(index0 <= 7225):
      
-     while (str(dff.is_open[index0])!= '1'):
-        index0 = index0 + 1
      while (str(dff.is_open[index1])!= '1'):
         index1 = index1 + 1
+     
+     index0 = index1 + 1
+    
+     while (str(dff.is_open[index0])!= '1'):
+        index0 = index0 + 1
      zhishu.selectlianban(df,cal_date[index0],cal_date[index1])
      print(str(cal_date[index0])+'-------------------------------------------------')
+     
      index1 = index1 + 1
-     index0 = index0 + 1
 '''
 
 #获取该日股票数据及涨停炸板股
 '''
 t = 0
 
-while (t < 3000):
+while (t < 4600):
     while (str(dff.is_open[index0])!= '1'):
         index0 = index0 - 1
     #if (os.path.isfile('zhangtingguchi/'+cal_date[index0]+'.xlsx')):
@@ -573,8 +574,8 @@ while (t < 3000):
     #df.to_excel('zhangtingguchi/'+cal_date[index0]+'.xlsx',index=False)
     print(str(cal_date[index0])+'------'+str(index0))
     index0 = index0 - 1
-
 '''
+
 
 #按日期列出各项指数及数据
 '''

@@ -113,31 +113,41 @@ def selectzhangting(df,lastjiaoyiri):
     
 def selectlianban(df,lastjiaoyiri,lastlastjiaoyiri):
     lianbangu =pd.DataFrame(columns=('name','amount','code','times','flag'))
-    if (os.path.isfile('zhangtingguchi/'+str(lastjiaoyiri) + 'zhangtinggu.xlsx') and os.path.isfile('zhangtingguchi/'+str(lastlastjiaoyiri) + 'zhangtinggu.xlsx') and os.path.isfile('zhangtingguchi/'+str(lastlastjiaoyiri) + 'lianbangu.xlsx')):
+    if (os.path.isfile('zhangtingguchi/'+str(lastjiaoyiri) + 'zhangtinggu.xlsx')):
         dangrizhangting = pd.read_excel('zhangtingguchi/'+str(lastjiaoyiri) + 'zhangtinggu.xlsx')
-        qianrizhangting = pd.read_excel('zhangtingguchi/'+str(lastlastjiaoyiri) + 'zhangtinggu.xlsx')
-        qianrilianban = pd.read_excel('zhangtingguchi/'+str(lastlastjiaoyiri) + 'lianbangu.xlsx')
     else :
-        
         print('无数据')
         return
+       
+    if (os.path.isfile('zhangtingguchi/'+str(lastlastjiaoyiri) + 'zhangtinggu.xlsx')):
+        qianrizhangting = pd.read_excel('zhangtingguchi/'+str(lastlastjiaoyiri) + 'zhangtinggu.xlsx')
+    else :
+        print('无数据')
+        return
+    flag_qianri = 0
+    if (os.path.isfile('zhangtingguchi/'+str(lastlastjiaoyiri) + 'lianbangu.xlsx')):
+        qianrilianban = pd.read_excel('zhangtingguchi/'+str(lastlastjiaoyiri) + 'lianbangu.xlsx')
+        flag_qianri = 1
+        
     name1 = dangrizhangting.name
     amount1 = dangrizhangting.amount
     name2 = qianrizhangting.name
-    name3 = qianrilianban.name
-    times = qianrilianban.times
+
     
     flag = 0
     
     for index1 in name1.index:
-                
-        for index3 in name3.index:
-            if (name1[index1][:-3] == name3[index3][:-3]):
-                timess = int(times[index3])+1
-                lianbangu = lianbangu.append([{'name':name1[index1],'amount':amount1[index1],'code':name1[index1],'times':int(timess),'flag':0}])
-                #print('连板'+str(name1[index1])+str(name3[index3]))
-                flag = 1
-                break
+        
+        if (flag_qianri == 1):
+            name3 = qianrilianban.name
+            times = qianrilianban.times    
+            for index3 in name3.index:
+                if (name1[index1][:-3] == name3[index3][:-3]):
+                    timess = int(times[index3])+1
+                    lianbangu = lianbangu.append([{'name':name1[index1],'amount':amount1[index1],'code':name1[index1],'times':int(timess),'flag':0}])
+                    #print('连板'+str(name1[index1])+str(name3[index3]))
+                    flag = 1
+                    break
         
         for index2 in name2.index:
             if (name1[index1][:-3] == name2[index2][:-3]):
@@ -218,7 +228,11 @@ def selectzhangtingzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100):
         print('无'+str(lastlastjiaoyiri)+'交易日涨停数据')
         return None
     name = dff1.name
-
+    
+    if (dff1.shape[0] == 0):
+        print('无'+str(lastlastjiaoyiri)+'交易日涨停数据------------')
+        return None
+    
     for index in name.index:
         
         if name[index] in d100:
@@ -252,10 +266,14 @@ def selectzhabanzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100,d100_1):
     if (os.path.isfile('zhangtingguchi/'+str(lastlastjiaoyiri)+'zhabangu.xlsx')):
         dff1 =  pd.read_excel('zhangtingguchi/'+str(lastlastjiaoyiri) + 'zhabangu.xlsx')
     else :
-        print('无'+str(lastlastjiaoyiri)+'交易日涨停数据')
+        print('无'+str(lastlastjiaoyiri)+'交易日z炸板数据')
         return None
     name = dff1.name
-
+    
+    if (dff1.shape[0] == 0):
+        print('无'+str(lastlastjiaoyiri)+'交易日炸板数据----------------')
+        return None
+    
     for index in name.index:
         
         
@@ -355,6 +373,11 @@ def selectlianbanzhishu_open(df,lastjiaoyiri,lastlastjiaoyiri,d100_open):
     else :
         print('无'+str(lastlastjiaoyiri)+'交易日连板数据')
         return None
+    
+    if (dff1.shape[0] == 0):
+        print('无'+str(lastlastjiaoyiri)+'交易日连板数据------------')
+        return None
+    
     name = dff1.name
     times = dff1.times
     for index in name.index:
@@ -402,7 +425,11 @@ def selectzhangtingzhishu_open(df,lastjiaoyiri,lastlastjiaoyiri,d100_open):
         print('无'+str(lastlastjiaoyiri)+'交易日涨停数据')
         return None
     name = dff1.name
-
+    
+    if (dff1.shape[0] == 0):
+        print('无'+str(lastlastjiaoyiri)+'交易日涨停数据------------')
+        return None
+    
     for index in name.index:
         
         if name[index] in d100_open:
