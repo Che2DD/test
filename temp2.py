@@ -376,7 +376,7 @@ def shuangjiaoshuju():
 #shuangjiao.shuangjiaohuice(ts,df,resulthuice)
 #gengxin.gengxinyiri(df,lastjiaoyiri,lastlastjiaoyiri,pro)
 #gengxin.gengxinyiri_yici(df,lastjiaoyiri,lastlastjiaoyiri,pro)
-    
+
 #gengxin.gengxinshuju(ts,df,result)
 #gengxin.gengxinshujuweifuquan(ts,df,result)
     
@@ -423,7 +423,7 @@ while(index100 <= 7194):
 
 
 
-flag_d100 = 1
+flag_d100 = 0
 if (flag_d100 == 1):    
     d100 ={'000000.SH':'0.00'}
     d100_1 ={'000000.SH':'0.00'}
@@ -536,14 +536,14 @@ if (flag_d100 == 1):
 
 
 
-'''
+
 
 t = 0
 print(index0)
 index1 = index0 -4927
 print(cal_date[index0])
 
-while(index0 <= 7225):
+while(index0 <= 7230):
      
      while (str(dff.is_open[index1])!= '1'):
         index1 = index1 + 1
@@ -556,7 +556,7 @@ while(index0 <= 7225):
      print(str(cal_date[index0])+'-------------------------------------------------')
      
      index1 = index1 + 1
-'''
+
 
 #获取该日股票数据及涨停炸板股
 '''
@@ -569,7 +569,7 @@ while (t < 4600):
      #   break
     if (os.path.isfile('zhangtingguchi/'+cal_date[index0]+'.xlsx')):
         #d11111 = pd.read_excel('zhangtingguchi/'+str(cal_date[index0]) + '.xlsx')
-        zhishu.selectzhangtinggu(df,cal_date[index0])
+        zhishu.selectzhangting(df,cal_date[index0])
     #df = pro.daily(trade_date=cal_date[index0])
     #df.to_excel('zhangtingguchi/'+cal_date[index0]+'.xlsx',index=False)
     print(str(cal_date[index0])+'------'+str(index0))

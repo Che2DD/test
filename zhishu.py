@@ -69,34 +69,54 @@ def selectzhangting(df,lastjiaoyiri):
     amount = dangri.amount
     pre_close = dangri.pre_close
     high = dangri.high
+    low = dangri.low
     
     for index in close.index:       
        
         if name[index] in d:
-            continue
-        else:
-            trade_price = Decimal(close[index])
-            trade_price = trade_price.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
             
-            origin_num1 = Decimal(pre_close[index])
-            shoupan_num = origin_num1.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
-                
-            origin_num2= Decimal(str(high[index]))
-                
-            high_num = origin_num2.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+            if (os.path.isfile('shuju/'+str(name[index])+'.csv')):
+                dff1235 = pd.read_csv('shuju/'+name[index]+'.csv')
+            else :
+                continue
             
-         
+            if (dff1235.shape[0] <= 2):
+                continue
             
-            if (panduanzhangting(str(trade_price),shoupan_num)):
-                zhangtinggu = zhangtinggu.append([{'name':name[index],'amount':amount[index],'code':name[index],'flag':0}])         
-                   #print(str(name[index2])+'-----'+str(symbo[index2]))                 
+            pct_chg1235 = dff1235.pct_chg
+            flag1235 = 0
+            for index3 in pct_chg1235.index:
+                if (pct_chg1235[index3] < 9.8):
+                    flag1235 = 1
+                    break
+            if (flag1235 == 0):
+                continue
         
-                                #avg_pct1 =  avg_pct1 + pct[0]
-            elif(panduanzhangting(str(high_num),shoupan_num)):
-                zhabangu = zhabangu.append([{'name':name[index],'amount':amount[index],'code':name[index],'flag':0}])
-                                #num1 = (close[1]-high[1])/high[1]*100
-                                #num2 = (openp[0]-close[1])/close[1]*100
-                                #print(str(name)+'++-+++++-+-+-'+str(symbo[index2]))
+        trade_price = Decimal(close[index])
+        trade_price = trade_price.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+        
+        origin_num1 = Decimal(pre_close[index])
+        shoupan_num = origin_num1.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+            
+        origin_num2= Decimal(str(high[index]))
+            
+        high_num = origin_num2.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+        
+     
+        
+        if (panduanzhangting(str(trade_price),shoupan_num)):
+            if (high[index] == low[index]):
+                zhangtinggu = zhangtinggu.append([{'name':name[index],'amount':amount[index],'code':name[index],'flag':1}])
+            else :
+                zhangtinggu = zhangtinggu.append([{'name':name[index],'amount':amount[index],'code':name[index],'flag':0}])         
+               #print(str(name[index2])+'-----'+str(symbo[index2]))                 
+    
+                            #avg_pct1 =  avg_pct1 + pct[0]
+        elif(panduanzhangting(str(high_num),shoupan_num)):
+            zhabangu = zhabangu.append([{'name':name[index],'amount':amount[index],'code':name[index],'flag':0}])
+                            #num1 = (close[1]-high[1])/high[1]*100
+                            #num2 = (openp[0]-close[1])/close[1]*100
+                            #print(str(name)+'++-+++++-+-+-'+str(symbo[index2]))
     '''
     if (os.path.isfile('zhangtingguchi/'+(str(lastjiaoyiri) + 'zhangtinggu.xlsx'))):
         print('无需再次更新当日涨停股池')
@@ -132,11 +152,14 @@ def selectlianban(df,lastjiaoyiri,lastlastjiaoyiri):
     name1 = dangrizhangting.name
     amount1 = dangrizhangting.amount
     name2 = qianrizhangting.name
-
-    
+    flag_11111 = dangrizhangting.flag
+    flag_789 = 0
     flag = 0
     
     for index1 in name1.index:
+        flag_789 = 0
+        if (int(flag_11111[index1]) == 1):
+            flag_789 = 1
         
         if (flag_qianri == 1):
             name3 = qianrilianban.name
@@ -144,7 +167,7 @@ def selectlianban(df,lastjiaoyiri,lastlastjiaoyiri):
             for index3 in name3.index:
                 if (name1[index1][:-3] == name3[index3][:-3]):
                     timess = int(times[index3])+1
-                    lianbangu = lianbangu.append([{'name':name1[index1],'amount':amount1[index1],'code':name1[index1],'times':int(timess),'flag':0}])
+                    lianbangu = lianbangu.append([{'name':name1[index1],'amount':amount1[index1],'code':name1[index1],'times':int(timess),'flag':flag_789}])
                     #print('连板'+str(name1[index1])+str(name3[index3]))
                     flag = 1
                     break
@@ -153,10 +176,10 @@ def selectlianban(df,lastjiaoyiri,lastlastjiaoyiri):
             if (name1[index1][:-3] == name2[index2][:-3]):
                 if (flag == 1):
                     flag = 0
-                    break;
-                lianbangu = lianbangu.append([{'name':name1[index1],'amount':amount1[index1],'code':name1[index1],'times':int(2),'flag':0}]) 
+                    break
+                lianbangu = lianbangu.append([{'name':name1[index1],'amount':amount1[index1],'code':name1[index1],'times':int(2),'flag':flag_789}]) 
                 #print(str(name1[index1])+str(name2[index2]))
-                break;
+                break
     lianbangu.to_excel('zhangtingguchi/'+str(lastjiaoyiri)  + 'lianbangu.xlsx',index=False)      
     print('连板更新完毕')
     
@@ -176,6 +199,8 @@ def selectlianbanzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100):
     avg_low = 0
     num_high = 0
     num_low = 0
+    avg_yizi = 0
+    num_yizi = 0
     if (os.path.isfile('zhangtingguchi/'+str(lastlastjiaoyiri)+'lianbangu.xlsx')):
         dff1 =  pd.read_excel('zhangtingguchi/'+str(lastlastjiaoyiri) + 'lianbangu.xlsx')
     else :
@@ -183,9 +208,17 @@ def selectlianbanzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100):
         return None
     name = dff1.name
     times = dff1.times
+    flag_yizi = dff1.flag
     for index in name.index:
         
         if name[index] in d100:
+            
+            if (flag_yizi == 1):
+                avg_yizi = avg_yizi + d100[name[index]]
+                num_yizi = num_yizi +1                                            
+                
+                
+            
         
             if (int(times[index]) >= 3):
                 avg_high = avg_high + d100[name[index]]
@@ -216,19 +249,21 @@ def selectlianbanzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100):
 
     if (num_low == 0 and num_high == 0):
         return None
-    return round((avg_low+avg_high)/(num_low+num_high),2),(num_low+num_high)
+    return round((avg_low+avg_high)/(num_low+num_high),2),(num_low+num_high),round((avg_low+avg_high-avg_yizi)/(num_low+num_high-num_yizi),2),(num_low+num_high-num_yizi)
 
 def selectzhangtingzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100):
 
     avg = 0
     num = 0
+    avg_yizi = 0
+    num_yizi = 0
     if (os.path.isfile('zhangtingguchi/'+str(lastlastjiaoyiri)+'zhangtinggu.xlsx')):
         dff1 =  pd.read_excel('zhangtingguchi/'+str(lastlastjiaoyiri) + 'zhangtinggu.xlsx')
     else :
         print('无'+str(lastlastjiaoyiri)+'交易日涨停数据')
         return None
     name = dff1.name
-    
+    flag_yizi = dff1.flag
     if (dff1.shape[0] == 0):
         print('无'+str(lastlastjiaoyiri)+'交易日涨停数据------------')
         return None
@@ -236,6 +271,11 @@ def selectzhangtingzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100):
     for index in name.index:
         
         if name[index] in d100:
+            
+            if (flag_yizi == 1):
+                avg_yizi = avg_yizi + d100[name[index]]
+                num_yizi = num_yizi +1   
+            
         
             avg = avg + d100[name[index]]
             num = num + 1
@@ -256,7 +296,7 @@ def selectzhangtingzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100):
                 break
         '''
         
-    return round(avg/num,2),num
+    return round(avg/num,2),num, round((avg-avg_yizi)/(num-num_yizi),2),(num-num_yizi)
 
 def selectzhabanzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100,d100_1):
 
