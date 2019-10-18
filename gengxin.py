@@ -578,3 +578,93 @@ def gengxinyiri_yici(df,lastjiaoyiri,lastlastjiaoyiri,pro):
     
     
     return
+
+def jinqidadie(df):
+    result =pd.DataFrame(columns=('tradedate','money','name','flag'))
+
+    tscode = df.ts_code
+    symbo = df.symbol
+    for index in tscode.index:
+        qwe = tscode[index]
+        if (os.path.isfile('shuju/'+str(qwe)+'.csv')):
+                dff = pd.read_csv('shuju/'+str(qwe)+'.csv')
+                price = dff.pct_chg
+                tradedate = dff.trade_date
+                money = dff.amount
+            #print(tscode[index])
+            #print(price)
+                name = symbo[index]
+                nam = df.name[index]
+            #dff.to_csv(qwe+'111111111.csv')
+                nums = []
+                for index2 in price.index:
+               # print(index2)                                                          
+                    if (index2 > 12):
+                        break
+                    nums.append(price[index2])
+                  
+                sum = 0
+                minSum = nums[0]
+                maxSum = 0
+                for num in nums:
+                    sum += num
+                    if sum - maxSum < minSum:
+                        minSum = sum - maxSum
+                    if sum > maxSum:
+                        maxSum = sum    
+                
+                    
+                    
+                result = result.append([{'tradedate':tradedate[index2],'money':int(minSum),'name':nam}], ignore_index=True)
+                result.to_excel('diefu.xlsx', index=False)             
+                        
+    
+      
+    
+    
+    return
+def jinridadie(df):
+    result =pd.DataFrame(columns=('tradedate','money','name','flag'))
+
+    tscode = df.ts_code
+    symbo = df.symbol
+    for index in tscode.index:
+        qwe = tscode[index]
+        if (os.path.isfile('shuju/'+str(qwe)+'.csv')):
+                dff = pd.read_csv('shuju/'+str(qwe)+'.csv')
+                price = dff.pct_chg
+                tradedate = dff.trade_date
+                money = dff.amount
+            #print(tscode[index])
+            #print(price)
+                name = symbo[index]
+                nam = df.name[index]
+            #dff.to_csv(qwe+'111111111.csv')
+                nums = []
+                index2 = 11
+                if (dff.shape[0] < index2+1):
+                    continue
+                while(index2 >= 1):
+               # print(index2)                                                          
+                    
+                    nums.append(price[index2])
+                    index2 = index2 - 1
+                weizhi = 0
+                minSum = nums[0]
+                Sum = nums[0]
+                for num in nums:
+                     Sum = Sum + num
+                     if (Sum + nums[0] <minSum):
+                         minSum = Sum + nums[0]
+                         weizhi = num
+                
+                    
+                    
+                result = result.append([{'tradedate':weizhi,'money':int(minSum),'name':nam}], ignore_index=True)
+                result.to_excel('jinridiefu.xlsx', index=False)           
+                        
+    
+       
+    
+    
+    return

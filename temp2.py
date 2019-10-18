@@ -345,7 +345,7 @@ def shuangjiaoshuju():
     
     t = 1
     while(t>0):
-        if(t == 1000):
+        if(t == 2):
             
             gengxin.shishijilu(df,1,cal_date[index0])
             shuangjiaojilu()
@@ -380,7 +380,7 @@ def shuangjiaoshuju():
 #gengxin.gengxinshuju(ts,df,result)
 #gengxin.gengxinshujuweifuquan(ts,df,result)
     
-
+gengxin.jinridadie(df)
 
 #df13 = pro.daily(trade_date=lastjiaoyiri)
 #df13.to_excel('zhangtingguchi/'+lastjiaoyiri+'.xlsx',index=False)  
@@ -536,7 +536,7 @@ if (flag_d100 == 1):
 
 
 
-
+'''
 
 t = 0
 print(index0)
@@ -556,7 +556,7 @@ while(index0 <= 7230):
      print(str(cal_date[index0])+'-------------------------------------------------')
      
      index1 = index1 + 1
-
+'''
 
 #获取该日股票数据及涨停炸板股
 '''

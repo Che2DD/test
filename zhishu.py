@@ -220,7 +220,7 @@ def selectlianbanzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100):
                 
             
         
-            if (int(times[index]) >= 3):
+            if (int(times[index]) >= 4):
                 avg_high = avg_high + d100[name[index]]
                 num_high = num_high + 1
             else:
