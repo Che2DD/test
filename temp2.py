@@ -380,7 +380,7 @@ def shuangjiaoshuju():
 #gengxin.gengxinshuju(ts,df,result)
 #gengxin.gengxinshujuweifuquan(ts,df,result)
     
-gengxin.jinridadie(df)
+gengxin.jinridadie(df,lastjiaoyiri)
 
 #df13 = pro.daily(trade_date=lastjiaoyiri)
 #df13.to_excel('zhangtingguchi/'+lastjiaoyiri+'.xlsx',index=False)  

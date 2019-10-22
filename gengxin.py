@@ -623,7 +623,7 @@ def jinqidadie(df):
     
     
     return
-def jinridadie(df):
+def jinridadie(df,lastjiaoyiri):
     result =pd.DataFrame(columns=('tradedate','money','name','flag'))
 
     tscode = df.ts_code
@@ -641,27 +641,32 @@ def jinridadie(df):
                 nam = df.name[index]
             #dff.to_csv(qwe+'111111111.csv')
                 nums = []
-                index2 = 11
-                if (dff.shape[0] < index2+1):
+                
+                begin = 0
+                len1 = begin + 8
+                if (dff.shape[0] < len1+1):
                     continue
-                while(index2 >= 1):
+                index2 = 1
+                while(index2 <= len1):
                # print(index2)                                                          
                     
                     nums.append(price[index2])
-                    index2 = index2 - 1
-                weizhi = 0
-                minSum = nums[0]
-                Sum = nums[0]
+                    index2 = index2 + 1
+                weizhi = str(round(price[0],2))
+                minSum = price[0]
+                
+                Sum = price[0]
                 for num in nums:
                      Sum = Sum + num
-                     if (Sum + nums[0] <minSum):
-                         minSum = Sum + nums[0]
-                         weizhi = num
+                     weizhi = weizhi + '|'+str(round(num,2))
+                     if (Sum  < minSum):
+                         minSum = Sum 
+                         
                 
                     
-                    
+                
                 result = result.append([{'tradedate':weizhi,'money':int(minSum),'name':nam}], ignore_index=True)
-                result.to_excel('jinridiefu.xlsx', index=False)           
+    result.to_excel(str(lastjiaoyiri)+'--'+str(begin) + 'jinridiefu.xlsx', index=False)           
                         
     
        
