@@ -375,12 +375,33 @@ def shuangjiaoshuju():
 
 #shuangjiao.shuangjiaohuice(ts,df,resulthuice)
 #gengxin.gengxinyiri(df,lastjiaoyiri,lastlastjiaoyiri,pro)
+
 #gengxin.gengxinyiri_yici(df,lastjiaoyiri,lastlastjiaoyiri,pro)
 
 #gengxin.gengxinshuju(ts,df,result)
 #gengxin.gengxinshujuweifuquan(ts,df,result)
-    
-gengxin.jinridadie(df,lastjiaoyiri)
+
+
+ridadie_num = 0    
+gengxin._ridadie(df,lastjiaoyiri,5,ridadie_num)
+gengxin._ridadie(df,lastjiaoyiri,10,ridadie_num)
+gengxin._ridadie(df,lastjiaoyiri,20,ridadie_num)
+gengxin._ridadie(df,lastjiaoyiri,30,ridadie_num)
+gengxin._ridadie(df,lastjiaoyiri,60,ridadie_num)
+gengxin._ridadie(df,lastjiaoyiri,120,ridadie_num)
+gengxin._ridadie(df,lastjiaoyiri,250,ridadie_num)
+
+
+'''
+
+gengxin.jinqidadie(df,5)
+gengxin.jinqidadie(df,10)
+gengxin.jinqidadie(df,20)
+gengxin.jinqidadie(df,30)
+gengxin.jinqidadie(df,60)
+gengxin.jinqidadie(df,120)
+gengxin.jinqidadie(df,250)
+'''
 
 #df13 = pro.daily(trade_date=lastjiaoyiri)
 #df13.to_excel('zhangtingguchi/'+lastjiaoyiri+'.xlsx',index=False)  

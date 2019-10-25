@@ -346,20 +346,20 @@ def gengxinyiri_yici(df,lastjiaoyiri,lastlastjiaoyiri,pro):
     
     
     df13 = pro.daily(trade_date=lastjiaoyiri)
-    
+    df13.to_excel('zhangtingguchi/'+lastjiaoyiri+'.xlsx',index=False)  
     ts_code = df13.ts_code
     
     dizhi = 'shuju/'
 
     for index in ts_code.index:
         df_dangri =pd.DataFrame(columns=('ts_code','trade_date','open','high','low','close','pre_close','change','pct_chg','vol','amount','adj_factor','ma5','ma_v_5','ma10','ma_v_10','ma20','ma_v_20','ma30','ma_v_30','ma60','ma_v_60','ma120','ma_v_120','ma250','ma_v_250'))
-
+        
         qwe = ts_code[index]
- 
+        print(qwe)
         if (int(ts_code[index][:-3]) >= 0 ):
             if (os.path.isfile(dizhi+str(ts_code[index])+'.csv')):
-                dff1 = pd.read_csv(dizhi+ts_code[index]+'.csv')
-                dff_None1 = pd.read_csv(dizhi+ts_code[index]+'-None.csv')
+                dff1 = pd.read_csv(dizhi+ts_code[index]+'.csv',engine='python')
+                dff_None1 = pd.read_csv(dizhi+ts_code[index]+'-None.csv',engine='python')
             else :
                 dff = ts.pro_bar(ts_code=ts_code[index]+'', adj='qfq', adjfactor='True', start_date='20060101', end_date=lastjiaoyiri,ma=[5, 10, 20,30,60,120,250])
                 dff.to_csv(dizhi+ts_code[index]+'.csv',index=False)
@@ -579,14 +579,15 @@ def gengxinyiri_yici(df,lastjiaoyiri,lastlastjiaoyiri,pro):
     
     return
 
-def jinqidadie(df):
+def jinqidadie(df,num_times):
     result =pd.DataFrame(columns=('tradedate','money','name','flag'))
 
     tscode = df.ts_code
     symbo = df.symbol
     for index in tscode.index:
         qwe = tscode[index]
-        if (os.path.isfile('shuju/'+str(qwe)+'.csv')):
+        nam = df.name
+        if (os.path.isfile('shuju/'+str(qwe)+'.csv')and (nam[index].find('ST') < 0)):
                 dff = pd.read_csv('shuju/'+str(qwe)+'.csv')
                 price = dff.pct_chg
                 tradedate = dff.trade_date
@@ -599,38 +600,62 @@ def jinqidadie(df):
                 nums = []
                 for index2 in price.index:
                # print(index2)                                                          
-                    if (index2 > 12):
+                    if (index2 > num_times):
                         break
                     nums.append(price[index2])
                   
-                sum = 0
+                sum1 = 0
+                num_sum = 1
+                num_max = 100 
                 minSum = nums[0]
                 maxSum = 0
-                for num in nums:
-                    sum += num
-                    if sum - maxSum < minSum:
-                        minSum = sum - maxSum
-                    if sum > maxSum:
-                        maxSum = sum    
+                num_result = 1
                 
+                num_index = 0
+                '''
+                for num in nums:
+                    sum1 += num
+                    num_sum = num_sum*(1+num/100)
+                    if sum1 - maxSum < minSum :
+                        minSum = sum1 - maxSum
+                        num_result = num_sum / num_max
+                    if sum1 > maxSum:
+                        maxSum = sum1  
+                        num_max = num_sum
+                        num_index = nums.index(num)
+                 '''
+                for num in nums:
+                     sum1=sum1+num
+                     num_sum = num_sum*(1+num/100)
+                     if(minSum>sum1):
+                       minSum=sum1;
+                       num_result = num_sum
+                       num_index = nums.index(num)
+                     if(sum1>0):
+                       sum1=0
+                       num_sum = 1
+                       
+                 
                     
-                    
-                result = result.append([{'tradedate':tradedate[index2],'money':int(minSum),'name':nam}], ignore_index=True)
-                result.to_excel('diefu.xlsx', index=False)             
+                result = result.append([{'tradedate':tradedate[num_index],'money':round((num_result-1)*100,1),'name':nam}], ignore_index=True)
+    result.to_excel(str(num_times)+'diefu.xlsx', index=False)             
                         
     
       
     
     
     return
-def jinridadie(df,lastjiaoyiri):
-    result =pd.DataFrame(columns=('tradedate','money','name','flag'))
+def _ridadie(df,lastjiaoyiri,times,begin):
+    result1 =pd.DataFrame(columns=('tradedate','money','name','flag'))
+    result2 =pd.DataFrame(columns=('tradedate','money','name','flag'))
 
     tscode = df.ts_code
     symbo = df.symbol
+    
     for index in tscode.index:
         qwe = tscode[index]
-        if (os.path.isfile('shuju/'+str(qwe)+'.csv')):
+        nam = df.name
+        if ((os.path.isfile('shuju/'+str(qwe)+'.csv') )and (nam[index].find('ST') < 0)):
                 dff = pd.read_csv('shuju/'+str(qwe)+'.csv')
                 price = dff.pct_chg
                 tradedate = dff.trade_date
@@ -638,35 +663,47 @@ def jinridadie(df,lastjiaoyiri):
             #print(tscode[index])
             #print(price)
                 name = symbo[index]
-                nam = df.name[index]
+                
             #dff.to_csv(qwe+'111111111.csv')
                 nums = []
                 
-                begin = 0
-                len1 = begin + 8
+                
+                len1 = begin + times
+                '''
                 if (dff.shape[0] < len1+1):
                     continue
+                '''
                 index2 = 1
-                while(index2 <= len1):
+                while(index2 <= len1 or index <=dff.shape[0]-1):
                # print(index2)                                                          
                     
                     nums.append(price[index2])
                     index2 = index2 + 1
                 weizhi = str(round(price[0],2))
-                minSum = price[0]
+                minSum = (100+price[0])/100
+                maxSum = (100+price[0])/100
+                Sum =(price[0]+100)/100
                 
-                Sum = price[0]
+                weizhi = '|'+str(price[0])
+                weizhi1 = '|'+str(price[0])
+                weizhi2 = '|'+str(price[0])
+                
                 for num in nums:
-                     Sum = Sum + num
+                     Sum = Sum * (100+num)/100
                      weizhi = weizhi + '|'+str(round(num,2))
                      if (Sum  < minSum):
-                         minSum = Sum 
-                         
-                
+                         minSum = round(Sum,4) 
+                         weizhi1 = weizhi
+                     if (Sum > maxSum):
+                         maxSum = round(Sum,4) 
+                         weizhi2 = weizhi
                     
                 
-                result = result.append([{'tradedate':weizhi,'money':int(minSum),'name':nam}], ignore_index=True)
-    result.to_excel(str(lastjiaoyiri)+'--'+str(begin) + 'jinridiefu.xlsx', index=False)           
+                result1 = result1.append([{'tradedate':weizhi1,'money':round((minSum-1)*100,1),'name':nam[index]}], ignore_index=True)
+                result2 = result2.append([{'tradedate':weizhi2,'money':round((maxSum-1)*100,1),'name':nam[index]}], ignore_index=True)
+
+    result1.to_excel(str(lastjiaoyiri)+'--'+str(times) + 'jinridiefu.xlsx', index=False)           
+    result2.to_excel(str(lastjiaoyiri)+'--'+str(times) + 'jinrizhangfu.xlsx', index=False)           
                         
     
        
