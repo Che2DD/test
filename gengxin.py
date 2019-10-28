@@ -674,7 +674,7 @@ def _ridadie(df,lastjiaoyiri,times,begin):
                     continue
                 '''
                 index2 = 1
-                while(index2 <= len1 or index <=dff.shape[0]-1):
+                while(index2 <= len1 and index <=dff.shape[0]-1):
                # print(index2)                                                          
                     
                     nums.append(price[index2])
