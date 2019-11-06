@@ -386,7 +386,7 @@ def gengxinyiri_yici(df,lastjiaoyiri,lastlastjiaoyiri,pro):
                 dff_None = ts.pro_bar(ts_code=qwe+'',  start_date='20060101', end_date=lastjiaoyiri,ma=[5, 10, 20,30,60,120,250])
                 dff_None.to_csv(dizhi+qwe+'-None.csv',index=False)
                 with open('a.txt', mode='a') as filename:
-                    filename.write('adjfactor1'+str(qwe)+'复权')
+                    filename.write('adjfactor1----'+str(mid1)+'-----'+str(mid2)+'-----'+str(qwe)+'------复权')
                     filename.write('\n')
                    
                 continue
@@ -667,18 +667,21 @@ def _ridadie(df,lastjiaoyiri,times,begin):
             #dff.to_csv(qwe+'111111111.csv')
                 nums = []
                 
-                
+                '''
                 len1 = begin + times
-                '''
-                if (dff.shape[0] < len1+1):
-                    continue
-                '''
+                
                 index2 = 1
                 while(index2 <= len1 and index <=dff.shape[0]-1):
                # print(index2)                                                          
                     
                     nums.append(price[index2])
                     index2 = index2 + 1
+                '''
+                for index2 in price.index:
+               # print(index2)                                                          
+                    if (index2 > times):
+                        break
+                    nums.append(price[index2])
                 weizhi = str(round(price[0],2))
                 minSum = (100+price[0])/100
                 maxSum = (100+price[0])/100

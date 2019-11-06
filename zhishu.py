@@ -213,7 +213,7 @@ def selectlianbanzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100):
         
         if name[index] in d100:
             
-            if (flag_yizi == 1):
+            if (int(flag_yizi[index]) == 1):
                 avg_yizi = avg_yizi + d100[name[index]]
                 num_yizi = num_yizi +1                                            
                 
@@ -272,7 +272,7 @@ def selectzhangtingzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100):
         
         if name[index] in d100:
             
-            if (flag_yizi == 1):
+            if (int(flag_yizi[index]) == 1):
                 avg_yizi = avg_yizi + d100[name[index]]
                 num_yizi = num_yizi +1   
             
@@ -347,6 +347,8 @@ def selectzhabanzhishu(df,lastjiaoyiri,lastlastjiaoyiri,d100,d100_1):
 def pingjunzhangfu(lastjiaoyiri):
     if (os.path.isfile('zhangtingguchi/'+str(lastjiaoyiri)+'.xlsx')):
         dff1 =  pd.read_excel('zhangtingguchi/'+str(lastjiaoyiri) + '.xlsx')
+    else :
+        return 0
     pct_chg = dff1.pct_chg
     result = 0
     number = 0

@@ -376,13 +376,17 @@ def shuangjiaoshuju():
 #shuangjiao.shuangjiaohuice(ts,df,resulthuice)
 #gengxin.gengxinyiri(df,lastjiaoyiri,lastlastjiaoyiri,pro)
 
-gengxin.gengxinyiri_yici(df,lastjiaoyiri,lastlastjiaoyiri,pro)
+#gengxin.gengxinyiri_yici(df,lastjiaoyiri,lastlastjiaoyiri,pro)
 
 #gengxin.gengxinshuju(ts,df,result)
 #gengxin.gengxinshujuweifuquan(ts,df,result)
+    
 
 
+'''
 ridadie_num = 0    
+gengxin._ridadie(df,lastjiaoyiri,45,0)
+gengxin._ridadie(df,lastjiaoyiri,90,0)
 gengxin._ridadie(df,lastjiaoyiri,5,ridadie_num)
 gengxin._ridadie(df,lastjiaoyiri,10,ridadie_num)
 gengxin._ridadie(df,lastjiaoyiri,20,ridadie_num)
@@ -390,10 +394,8 @@ gengxin._ridadie(df,lastjiaoyiri,30,ridadie_num)
 gengxin._ridadie(df,lastjiaoyiri,60,ridadie_num)
 gengxin._ridadie(df,lastjiaoyiri,120,ridadie_num)
 gengxin._ridadie(df,lastjiaoyiri,250,ridadie_num)
-
-
-
-
+'''
+'''
 gengxin.jinqidadie(df,5)
 gengxin.jinqidadie(df,10)
 gengxin.jinqidadie(df,20)
@@ -402,6 +404,7 @@ gengxin.jinqidadie(df,60)
 gengxin.jinqidadie(df,120)
 gengxin.jinqidadie(df,250)
 
+'''
 
 
 
@@ -443,6 +446,30 @@ while(index100 <= 7194):
 
 
 
+dddddqqq = pd.read_excel('zhangtingguchi/zhishu.xlsx',index=False)
+#print(dddddqqq.corr())
+
+dddqweq = dddddqqq.sort_values('zhangtingzhishu')
+dddqweq = dddqweq.reset_index(drop=True)
+nums = []
+zhishu = dddqweq.zhangtingzhishu
+i = 0
+len = dddqweq.shape[0]
+dddqweq['bi'] = None
+bi = dddqweq.bi
+while(i < 100):
+    nums.append (round(zhishu[int(len/100*(i))],2))
+    i = i + 1
+print(nums)
+for index in zhishu.index :
+    i = 0
+    while(zhishu[index] >= nums[i]):
+        if (i > 98):
+            break;
+        i = i + 1
+        
+    bi[index] = i
+dddqweq.to_excel('zhishu11111111111111111.xlsx',index=False)
 
 
 
@@ -454,13 +481,13 @@ if (flag_d100 == 1):
     d100_1_open ={'000000.SH':'0.00'}
     t = 0
     print(index0)
-    index1 = index0 -4600
+    index1 = index0 -400
     print(cal_date[index0])
     index0 = index1 + 1
     #zhishu =pd.DataFrame(columns=('shangzheng','chuangyeban','lianbanzhishu','zhabanzhishu','zhangtingzhishu','pingjunzhangfu'))
     
-    zhishudata =pd.DataFrame(columns=('date','lianbanzhishu_open','lianbanzhishu','lianbanzhishu_num','zhangtingzhishu_open','zhangtingzhishu','zhangtingzhishu_num','zhabanzhishu','zhabanlv','pingjunzhangfu'))
-    
+    #zhishudata =pd.DataFrame(columns=('date','lianbanzhishu_open','lianbanzhishu','lianbanzhishu_num','zhangtingzhishu_open','zhangtingzhishu','zhangtingzhishu_num','zhabanzhishu','zhabanlv','pingjunzhangfu'))
+    zhishudata =pd.DataFrame(columns=('date','zhangtingzhishu','zhangtingzhishu_num','zhabanzhishu','zhabanlv','pingjunzhangfu'))
     shangzheng50 =pd.read_excel('000016.SH.xlsx',index=False)
     zhongxiaoban =pd.read_excel('399005.SZ.xlsx',index=False)
     chuangyeban =pd.read_excel('399006.SZ.xlsx',index=False)
@@ -539,19 +566,20 @@ if (flag_d100 == 1):
          if (zhangtingzhishu_zu == None):
              zhangtingzhishu = None
          else :
-             zhangtingzhishu = zhangtingzhishu_zu[0]
-             zhangtingzhishu_num = zhangtingzhishu_zu[1]
+             zhangtingzhishu = zhangtingzhishu_zu[2]
+             zhangtingzhishu_num = zhangtingzhishu_zu[3]
              
          if (zhabanzhishu_zu == None):
              zhabanzhishu = None
          else :
              zhabanzhishu = zhabanzhishu_zu[0]   
             
-         zhishudata = zhishudata.append([{'date':lastjiaoyiri,'lianbanzhishu_open':lianbanzhishu_open,'lianbanzhishu':lianbanzhishu,'lianbanzhishu_num':lianbanzhishu_num,'zhangtingzhishu_open':zhangtingzhishu_open,'zhangtingzhishu':zhangtingzhishu,'zhangtingzhishu_num':zhangtingzhishu_num,'zhabanzhishu':zhabanzhishu,'zhabanlv':zhabanlv,'pingjunzhangfu':pingjunzhangfu}])
-    
+         #zhishudata = zhishudata.append([{'date':lastjiaoyiri,'lianbanzhishu_open':lianbanzhishu_open,'lianbanzhishu':lianbanzhishu,'lianbanzhishu_num':lianbanzhishu_num,'zhangtingzhishu_open':zhangtingzhishu_open,'zhangtingzhishu':zhangtingzhishu,'zhangtingzhishu_num':zhangtingzhishu_num,'zhabanzhishu':zhabanzhishu,'zhabanlv':zhabanlv,'pingjunzhangfu':pingjunzhangfu}])
+         zhishudata = zhishudata.append([{'date':lastjiaoyiri,'zhangtingzhishu':zhangtingzhishu,'zhangtingzhishu_num':zhangtingzhishu_num,'zhabanzhishu':zhabanzhishu,'zhabanlv':zhabanlv,'pingjunzhangfu':pingjunzhangfu}])
          index1 = index1 + 1
          index0 = index0 + 1
          zhishudata.to_excel('zhangtingguchi/zhishu.xlsx',index=False)
+    print(zhishudata.corr())
 
 
 
