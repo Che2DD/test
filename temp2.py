@@ -461,6 +461,7 @@ while(i < 100):
     nums.append (round(zhishu[int(len/100*(i))],2))
     i = i + 1
 print(nums)
+
 for index in zhishu.index :
     i = 0
     while(zhishu[index] >= nums[i]):
