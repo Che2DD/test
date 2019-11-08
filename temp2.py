@@ -376,14 +376,14 @@ def shuangjiaoshuju():
 #shuangjiao.shuangjiaohuice(ts,df,resulthuice)
 #gengxin.gengxinyiri(df,lastjiaoyiri,lastlastjiaoyiri,pro)
 
-#gengxin.gengxinyiri_yici(df,lastjiaoyiri,lastlastjiaoyiri,pro)
+gengxin.gengxinyiri_yici(df,lastjiaoyiri,lastlastjiaoyiri,pro)
 
 #gengxin.gengxinshuju(ts,df,result)
 #gengxin.gengxinshujuweifuquan(ts,df,result)
     
 
 
-'''
+
 ridadie_num = 0    
 gengxin._ridadie(df,lastjiaoyiri,45,0)
 gengxin._ridadie(df,lastjiaoyiri,90,0)
@@ -394,7 +394,7 @@ gengxin._ridadie(df,lastjiaoyiri,30,ridadie_num)
 gengxin._ridadie(df,lastjiaoyiri,60,ridadie_num)
 gengxin._ridadie(df,lastjiaoyiri,120,ridadie_num)
 gengxin._ridadie(df,lastjiaoyiri,250,ridadie_num)
-'''
+
 '''
 gengxin.jinqidadie(df,5)
 gengxin.jinqidadie(df,10)
@@ -446,31 +446,7 @@ while(index100 <= 7194):
 
 
 
-dddddqqq = pd.read_excel('zhangtingguchi/zhishu.xlsx',index=False)
-#print(dddddqqq.corr())
 
-dddqweq = dddddqqq.sort_values('zhangtingzhishu')
-dddqweq = dddqweq.reset_index(drop=True)
-nums = []
-zhishu = dddqweq.zhangtingzhishu
-i = 0
-len = dddqweq.shape[0]
-dddqweq['bi'] = None
-bi = dddqweq.bi
-while(i < 100):
-    nums.append (round(zhishu[int(len/100*(i))],2))
-    i = i + 1
-print(nums)
-
-for index in zhishu.index :
-    i = 0
-    while(zhishu[index] >= nums[i]):
-        if (i > 98):
-            break;
-        i = i + 1
-        
-    bi[index] = i
-dddqweq.to_excel('zhishu11111111111111111.xlsx',index=False)
 
 
 
@@ -484,7 +460,7 @@ if (flag_d100 == 1):
     print(index0)
     index1 = index0 -400
     print(cal_date[index0])
-    index0 = index1 + 1
+    
     #zhishu =pd.DataFrame(columns=('shangzheng','chuangyeban','lianbanzhishu','zhabanzhishu','zhangtingzhishu','pingjunzhangfu'))
     
     #zhishudata =pd.DataFrame(columns=('date','lianbanzhishu_open','lianbanzhishu','lianbanzhishu_num','zhangtingzhishu_open','zhangtingzhishu','zhangtingzhishu_num','zhabanzhishu','zhabanlv','pingjunzhangfu'))
@@ -497,6 +473,7 @@ if (flag_d100 == 1):
     
     while (str(dff.is_open[index1])!= '1'):
             index1 = index1 + 1
+    index0 = index1 + 1
     if (os.path.isfile('zhangtingguchi/'+str(cal_date[index1])+'.xlsx')):
         data_1 = pd.read_excel('zhangtingguchi/'+str(cal_date[index1]) + '.xlsx')
     else:
@@ -581,7 +558,34 @@ if (flag_d100 == 1):
          index0 = index0 + 1
          zhishudata.to_excel('zhangtingguchi/zhishu.xlsx',index=False)
     print(zhishudata.corr())
-
+    
+    
+    
+    dddddqqq = pd.read_excel('zhangtingguchi/zhishu.xlsx',index=False)
+    #print(dddddqqq.corr())
+    
+    dddqweq = dddddqqq.sort_values('zhangtingzhishu')
+    dddqweq = dddqweq.reset_index(drop=True)
+    nums = []
+    zhishu = dddqweq.zhangtingzhishu
+    i = 0
+    len = dddqweq.shape[0]
+    dddqweq['bi'] = None
+    bi = dddqweq.bi
+    while(i < 100):
+        nums.append (round(zhishu[int(len/100*(i))],2))
+        i = i + 1
+    print(nums)
+    
+    for index in zhishu.index :
+        i = 0
+        while(zhishu[index] >= nums[i]):
+            if (i > 98):
+                break;
+            i = i + 1
+            
+        bi[index] = i
+    dddqweq.to_excel('zhishu11111111111111111.xlsx',index=False)
 
 
 

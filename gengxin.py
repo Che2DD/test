@@ -646,8 +646,8 @@ def jinqidadie(df,num_times):
     
     return
 def _ridadie(df,lastjiaoyiri,times,begin):
-    result1 =pd.DataFrame(columns=('tradedate','money','name','flag'))
-    result2 =pd.DataFrame(columns=('tradedate','money','name','flag'))
+    result1 =pd.DataFrame(columns=('tradedate','money','name','flag','len','code'))
+    result2 =pd.DataFrame(columns=('tradedate','money','name','flag','len','code'))
 
     tscode = df.ts_code
     symbo = df.symbol
@@ -702,8 +702,8 @@ def _ridadie(df,lastjiaoyiri,times,begin):
                          weizhi2 = weizhi
                     
                 
-                result1 = result1.append([{'tradedate':weizhi1,'money':round((minSum-1)*100,1),'name':nam[index]}], ignore_index=True)
-                result2 = result2.append([{'tradedate':weizhi2,'money':round((maxSum-1)*100,1),'name':nam[index]}], ignore_index=True)
+                result1 = result1.append([{'tradedate':weizhi1,'money':round((minSum-1)*100,1),'name':nam[index],'flag':0,'len':dff.shape[0],'code':name}], ignore_index=True)
+                result2 = result2.append([{'tradedate':weizhi2,'money':round((maxSum-1)*100,1),'name':nam[index],'flag':0,'len':dff.shape[0],'code':name}], ignore_index=True)
 
     result1.to_excel(str(lastjiaoyiri)+'--'+str(times) + 'jinridiefu.xlsx', index=False)           
     result2.to_excel(str(lastjiaoyiri)+'--'+str(times) + 'jinrizhangfu.xlsx', index=False)           
