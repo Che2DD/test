@@ -638,6 +638,7 @@ def jinqidadie(df,num_times):
                  
                     
                 result = result.append([{'tradedate':tradedate[num_index],'money':round((num_result-1)*100,1),'name':nam}], ignore_index=True)
+    
     result.to_excel(str(num_times)+'diefu.xlsx', index=False)             
                         
     
@@ -728,9 +729,17 @@ def _ridadie(df,lastjiaoyiri,times,begin):
                 
                 result1 = result1.append([{'tradedate':weizhi1,'money':round((minSum-1)*100,1),'name':nam[index],'flag':0,'len':dff.shape[0],'code':name}], ignore_index=True)
                 result2 = result2.append([{'tradedate':weizhi2,'money':round((maxSum-1)*100,1),'name':nam[index],'flag':0,'len':dff.shape[0],'code':name}], ignore_index=True)
-
+    result1_new = result1.sort_values('money')
+    result1_new = result1_new.reset_index(drop=True)
+    result1_new = result1_new.loc[(result1_new["len"] <=220) & (result1_new["code"]<=688000)]
+    result2_new = result2.sort_values('money')
+    result2_new = result2_new.reset_index(drop=True)
+    result2_new = result2_new.loc[(result2_new["len"] <=220) & (result2_new["code"]<=688000)]
     result1.to_excel(str(lastjiaoyiri)+'--'+str(times) + 'jinridiefu.xlsx', index=False)           
-    result2.to_excel(str(lastjiaoyiri)+'--'+str(times) + 'jinrizhangfu.xlsx', index=False)           
+    result2.to_excel(str(lastjiaoyiri)+'--'+str(times) + 'jinrizhangfu.xlsx', index=False)  
+    result1_new.to_excel(str(lastjiaoyiri)+'-new-'+str(times) + 'jinridiefu.xlsx', index=False)           
+    result2_new.to_excel(str(lastjiaoyiri)+'--new'+str(times) + 'jinrizhangfu.xlsx', index=False)           
+         
                         
     
        
