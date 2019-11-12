@@ -380,11 +380,6 @@ def shuangjiaoshuju():
 #gengxin.gengxinshuju(ts,df,result)
 #gengxin.gengxinshujuweifuquan(ts,df,result)
     
-dddddqqq = pd.read_excel('20191112--20jinridiefu.xlsx',index=False)
-dddqweq = dddddqqq.sort_values('money')
-dddqweq = dddqweq.reset_index(drop=True)
-dddqweq = dddqweq.loc[(dddqweq["len"] <=220) & (dddqweq["code"]<=688000)]
-dddqweq.to_excel('20191112--20jinridiefu.xlsx',index=False)
 
 '''
 ridadie_num = 0   
