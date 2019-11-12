@@ -677,21 +677,45 @@ def _ridadie(df,lastjiaoyiri,times,begin):
                     nums.append(price[index2])
                     index2 = index2 + 1
                 '''
+                
+                if (dff.shape[0] <= begin):
+                    
+                
+                    
+                    continue
+                
+                
+                
                 for index2 in price.index:
+                    
+                    
+                    if (index2 < begin):
+                        continue
+                    
                # print(index2)                                                          
-                    if (index2 > times):
+                    if (index2 >= times+begin):
                         break
                     nums.append(price[index2])
+                    
                 weizhi = str(round(price[0],2))
                 minSum = (100+price[0])/100
                 maxSum = (100+price[0])/100
-                Sum =(price[0]+100)/100
                 
-                weizhi = '|'+str(price[0])
-                weizhi1 = '|'+str(price[0])
-                weizhi2 = '|'+str(price[0])
+
+                Sum =(nums[0]+100)/100
+                
+                weizhi = str(nums[0])
+                weizhi1 = str(nums[0])
+                weizhi2 = str(nums[0])
+                
+                i = 0
                 
                 for num in nums:
+                     
+                     if (i == 0):
+                         i = 1
+                         continue
+                        
                      Sum = Sum * (100+num)/100
                      weizhi = weizhi + '|'+str(round(num,2))
                      if (Sum  < minSum):

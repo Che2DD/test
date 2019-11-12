@@ -340,7 +340,6 @@ def panduanzhangting(shoupan,qianshoupan):
 #dff12.to_csv('shuju/000039.SZ.csv',index=False)
 
 
-
 def shuangjiaoshuju():
     
     t = 1
@@ -384,16 +383,20 @@ gengxin.gengxinyiri_yici(df,lastjiaoyiri,lastlastjiaoyiri,pro)
 
 
 
-ridadie_num = 0    
-gengxin._ridadie(df,lastjiaoyiri,45,0)
-gengxin._ridadie(df,lastjiaoyiri,90,0)
+ridadie_num = 0   
+gengxin._ridadie(df,lastjiaoyiri,3,ridadie_num)
+gengxin._ridadie(df,lastjiaoyiri,30,ridadie_num) 
+gengxin._ridadie(df,lastjiaoyiri,45,ridadie_num)
+gengxin._ridadie(df,lastjiaoyiri,90,ridadie_num)
 gengxin._ridadie(df,lastjiaoyiri,5,ridadie_num)
 gengxin._ridadie(df,lastjiaoyiri,10,ridadie_num)
 gengxin._ridadie(df,lastjiaoyiri,20,ridadie_num)
-gengxin._ridadie(df,lastjiaoyiri,30,ridadie_num)
+
 gengxin._ridadie(df,lastjiaoyiri,60,ridadie_num)
 gengxin._ridadie(df,lastjiaoyiri,120,ridadie_num)
 gengxin._ridadie(df,lastjiaoyiri,250,ridadie_num)
+
+
 
 '''
 gengxin.jinqidadie(df,5)
