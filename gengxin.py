@@ -735,10 +735,10 @@ def _ridadie(df,lastjiaoyiri,times,begin):
     result2_new = result2.sort_values('money')
     result2_new = result2_new.reset_index(drop=True)
     result2_new = result2_new.loc[(result2_new["len"] <=220+begin) & (result2_new["code"]<=688000)]
-    result1.to_excel(str(lastjiaoyiri)+'--'+str(times) + 'jinridiefu.xlsx', index=False)           
-    result2.to_excel(str(lastjiaoyiri)+'--'+str(times) + 'jinrizhangfu.xlsx', index=False)  
-    result1_new.to_excel(str(lastjiaoyiri)+'-new-'+str(times) + 'jinridiefu.xlsx', index=False)           
-    result2_new.to_excel(str(lastjiaoyiri)+'--new'+str(times) + 'jinrizhangfu.xlsx', index=False)           
+    result1.to_excel(str(lastjiaoyiri)+str(begin)+'--'+str(times) + 'jinridiefu.xlsx', index=False)           
+    result2.to_excel(str(lastjiaoyiri)+str(begin)+'--'+str(times) + 'jinrizhangfu.xlsx', index=False)  
+    result1_new.to_excel(str(lastjiaoyiri)+str(begin)+'-new-'+str(times) + 'jinridiefu.xlsx', index=False)           
+    result2_new.to_excel(str(lastjiaoyiri)+str(begin)+'--new'+str(times) + 'jinrizhangfu.xlsx', index=False)           
          
                         
     
